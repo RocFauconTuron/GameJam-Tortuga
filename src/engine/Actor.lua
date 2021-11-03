@@ -3,8 +3,8 @@
 -----------------------------------------------------------------
 
 -- Libs
-local Object = Object or require "lib/classic"
-local Vector = Vector or require "lib/vector"
+local Object = Object or require "src/lib/classic"
+local Vector = Vector or require "src/lib/vector"
 
 -- Engine
 local Entity = Entity or require "src/engine/Entity"

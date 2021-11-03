@@ -3,8 +3,8 @@
 -----------------------------------------------------------------
 
 -- Libs
-local Object = Object or require "lib/classic"
-local Vector = Vector or require "lib/vector"
+local Object = Object or require "src/lib/classic"
+local Vector = Vector or require "src/lib/vector"
 
 -- Class
 local UIText = Object:extend()
@@ -49,7 +49,7 @@ function UIText:setColor(r, g, b, a)
 end
 
 function UIText:setSize(pt)
-  self.font = love.graphics.newFont(self.font, pt or self.size)
+  self.font = love.graphics.newFont(self.font, pt)
   love.graphics.setFont(self.font)
   self:fixPosition()
 end

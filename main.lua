@@ -8,8 +8,12 @@ local mCurrentScene = 1
 local mScenes = {}
 
 function love.load()
+  
   -- Enable the debugging with ZeroBrane Studio
   if arg[#arg] == "-debug" then require("mobdebug").start() end 
+
+  -- Set the base Font
+  love.graphics.newFont("assets/fonts/SeaTurtle.ttf")
   
   -- Loading Scenes in mScenes
   table.insert(mScenes, GI)

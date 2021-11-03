@@ -3,7 +3,7 @@
 -----------------------------------------------------------------
 
 -- Libs
-local Object = Object or require "lib/classic"
+local Object = Object or require "src/lib/classic"
 
 -- Singleton Class
 Audio = Object:extend()

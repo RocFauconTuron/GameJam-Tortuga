@@ -3,7 +3,7 @@
 -----------------------------------------------------------------
 
 -- Libs
-local Vector = Vector or require "lib/vector"
+local Vector = Vector or require "src/lib/vector"
 
 -- Engine
 local Entity = Entity or require "src/engine/Entity"
@@ -54,6 +54,10 @@ end
 function UIButton:reload()
   UIButton.super.reload(self)
   ---------------------------
+end
+
+function UIButton:getText()
+  return self.text
 end
 
 return UIButton

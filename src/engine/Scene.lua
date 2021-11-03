@@ -2,10 +2,11 @@
 -- //////////////////////////////////////////////////////// SCENE
 -----------------------------------------------------------------
 
-local Timer = Timer or require "src/engine/Timer"
-
 -- Libs
-local Object = Object or require "lib/classic"
+local Object = Object or require "src/lib/classic"
+
+-- Engine
+local Timer = Timer or require "src/engine/Timer"
 
 -- Class
 local Scene = Object:extend()
