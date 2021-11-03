@@ -27,11 +27,8 @@ function Turtle:new(x, y, texture, speed, rotation, animations, frames, framerat
   
   self.fps = 60
   self.step = 1/self.fps
-  self.segments = {}
   self.roadWidht = 2000
-  self.segmentLenght = 400
-  self.rumpleLenght = 3
-  self.trackLength = 250000
+  self.trackLength = 500*400
   self.lanes = 3
   self.fieldOfView = 100
   self.cameraHeight = 1000
