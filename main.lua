@@ -1,7 +1,7 @@
 
 -- Scenes
-local GI = SceneIntro or require "Scripts/GameIntro" -- ID 1
-local GP = SceneGame or require "Scripts/GamePlay"   -- ID 2
+local GI = SceneIntro or require "src/scenes/GameIntro" -- ID 1
+local GP = SceneGame or require "src/scenes/GamePlay"   -- ID 2
 
 -- Locals
 local mCurrentScene = 1
