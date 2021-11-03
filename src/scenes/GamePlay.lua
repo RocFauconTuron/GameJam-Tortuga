@@ -21,7 +21,7 @@ function GamePlay:new()
   GamePlay.super.new(self)
   --------------------------
   
-  turtle_id = self:addEntity(Turtle(w / 2, h, "assets/textures/turtle.png", 300, 0, 1, 1, 1))
+  turtle_id = self:addEntity(Turtle(w / 2, h, "assets/textures/turtle.png", 0, 0, 1, 1, 1))
   road_id = self:addEntity(Road())
   
 end

@@ -24,7 +24,7 @@ end
 function Actor:update(dt)
   Actor.super.update(self, dt)
   ----------------------------
-  self.position = self.position + self.forward * self.speed * dt
+  -- self.position = self.position + self.forward * self.speed * dt
 end
 
 function Actor:draw()
