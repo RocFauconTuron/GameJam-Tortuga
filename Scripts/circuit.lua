@@ -1,17 +1,24 @@
 local Actor = Actor or require "Scripts/actor"
-local Car = Actor:extend()
 
-function Car:new(x,y)
+local Road = Actor:extend()
+
+function Road:new(x,y)
+    Road.super.new(self, x, y)
 
 end
 
-function Car:update(dt)
+function Road:update(dt)
+    Road.super.update(self, dt)
     
 end
 
-function Car:draw()
+function Road:draw()
+    Road.super.draw(self)
     
 end
 
+function Car:reload()
 
-return Car
+end
+
+return Road

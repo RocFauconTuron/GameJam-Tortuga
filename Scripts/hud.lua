@@ -1,8 +1,9 @@
 local Actor = Actor or require "Scripts/actor"
+
 local Hud = Actor:extend()
 
 function Hud:new(x,y)
-    self.font = love.graphics.setNewFont("Font/pong.ttf", 50)
+    self.font = love.graphics.setNewFont("Font/seaTurtle.ttf", 50)
 
     self.vidas = 3
     self.punts = 0

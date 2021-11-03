@@ -1,14 +1,15 @@
-Object = Object or require "Scripts/object"
-Vector = Vector or require "Scripts/vector"
+Object = Object or require "Scripts/lib/object"
+Vector = Vector or require "Scripts/lib/vector"
+
 local AnimatedActor = Object:extend()
 
-function AnimatedActor:new(image,x,y,speed,fx,fy,numFrames,fr)
+function AnimatedActor:new(image, x, y, speed, fx, fy, numFrames, fr)
     self.position = Vector.new(x or 0, y or 0)
-    self.scale = Vector.new(1,1)
+    self.scale = Vector.new(1, 1)
     self.forward = Vector.new(fx or 1,fy or 0)
     self.speed = speed or 30
     self.rot = 0
-    self.image = love.graphics.newImage(image or "Textures/background.jpg")
+    self.image = love.graphics.newImage(image or "Textures/pixe.png")
     self.origin = Vector.new(self.image:getWidth()/(2*numFrames) ,self.image:getHeight()/(2*numFrames))
     self.height = self.image:getHeight()
     self.width  = self.image:getWidth()
@@ -28,15 +29,18 @@ function AnimatedActor:new(image,x,y,speed,fx,fy,numFrames,fr)
 end
 
 function AnimatedActor:update(dt)
-  if self.actFrame <= 6 then
+  self.position = self.position + self.forward * self.speed * dt
+  if self.actFrame <= self.nFrames then
     self.actFrame = self.actFrame + self.frameRate*dt
   else
     self.actFrame =1
   end
-  self.position = self.position + self.forward * self.speed * dt
 end
 
 function AnimatedActor:draw()
- end
+end
+
+function AnimatedActor:reload()
+end
 
 return AnimatedActor

@@ -1,5 +1,6 @@
-local Actor = Actor or require "Scripts/actor"
-local Car = Actor:extend()
+local AnimatedActor = AnimatedActor or require "Scripts/AnimatedActor"
+
+local Car = AnimatedActor:extend()
 
 function Car:new(x,y)
 
@@ -13,5 +14,8 @@ function Car:draw()
     
 end
 
+function Car:reload()
+
+end
 
 return Car
