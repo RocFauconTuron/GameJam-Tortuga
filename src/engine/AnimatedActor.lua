@@ -42,7 +42,7 @@ end
 
 function AnimatedActor:draw()
   love.graphics.setColor(1, 1, 1, 1)
-  love.graphics.draw(self.texture, self.animation_frames[self.animation][self.frame], self.position.x, self.position.y, self.rotation, self.scale.x, self.scale.y)
+  love.graphics.draw(self.texture, self.animation_frames[self.animation][self.frame], self.position.x, self.position.y, self.rotation, self.scale.x, self.scale.y, self.origin.x, self.origin.y)
 end
 
 function AnimatedActor:reload()

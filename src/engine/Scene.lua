@@ -22,13 +22,13 @@ end
 function Scene:update(dt)
   self.time = self.time + dt
   for _, v in ipairs(self.entities) do
-    v:update(dt)
+    if (v.update) then v:update(dt) end
   end
 end
 
 function Scene:draw()
   for _, v in ipairs(self.entities) do
-    if (v:is(Timer) == false) then v:draw() end
+    if (v.draw) then v:draw() end
   end
 end
 
@@ -37,19 +37,19 @@ function Scene:reload()
   self.next = false
   self.time = 0
   for _, v in ipairs(self.entities) do
-    v:reload()
+    if (v.reload) then v:reload() end
   end
 end
 
 function Scene:keyPressed(key)
   for _, v in ipairs(self.entities) do
-    if (v:is(Timer) == false) then v:keyPressed(key) end
+    if (v.keyPressed) then v:keyPressed(key) end
   end
 end
 
 function Scene:keyReleased(key)
   for _, v in ipairs(self.entities) do
-    if (v:is(Timer) == false) then v:keyReleased(key) end
+    if (v.keyReleased) then v:keyReleased(key) end
   end
 end
 

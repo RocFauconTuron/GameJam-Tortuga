@@ -19,7 +19,7 @@ function Entity:new(x, y, texture, rotation)
   self.scale = Vector.new(1, 1)
   self.rotation = rotation or 0
   self.base_rotation = self.rotation
-  self:setTexture(texture or "assets/textures/entity.png")
+  self:setTexture(texture or "assets/textures/pixel.png")
 end
 
 function Entity:update(dt)
