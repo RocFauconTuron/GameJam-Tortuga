@@ -54,7 +54,7 @@ function Turtle:update(dt)
   end
   
   self.screen.x = (self.position.x - (w / 2)) / 100
-    
+  
   if (self.up) then self.speed = self.speed + (self.maxSpeed / 50) end
   if (self.down) then self.speed = self.speed - (self.maxSpeed / 25) end
   
@@ -115,6 +115,10 @@ end
 
 function Turtle:curveShift(curve)
   self.position.x = self.position.x + curve * (self.speed/self.maxSpeed)
+end
+
+function Turtle:upDownTheHill(altitude)
+  self.screen.y = altitude
 end
 
 return Turtle
