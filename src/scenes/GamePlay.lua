@@ -36,6 +36,8 @@ function GamePlay:update(dt)
   --------------------------------
   Camera:update(self:getEntity(turtle_id), dt)
   
+  self:getEntity(turtle_id):curveShift(self:getEntity(road_id):getSegment(Camera.z).curve)
+  
   -- Condición de pasar a Game Over, 2m de gameplay a máxima velocidad
   if (Camera.z > 719500) then self:nextScene() end
   
