@@ -17,6 +17,7 @@ function Road:new()
   self.segments = {}
   self.segmentLength = 100
   self.roadWidth = 1000
+  self.rumble_segments = 5
   
   self:createRoad()
   
@@ -56,7 +57,18 @@ function Road:draw()
 end
 
 function Road:drawSegment(x1, y1, w1, x2, y2, w2, color)
-  self:drawPolygon({x1 - w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2}, color)
+  
+  love.graphics.setColor(color.grass.r, color.grass.g, color.grass.b, color.grass.a)
+  love.graphics.rectangle("fill", 0, y2, w, y1 - y2)
+  
+  self:drawPolygon({x1 - w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2}, color.road)
+  
+  local rumble_w1 = w1 / 5
+  local rumble_w2 = w2 / 5
+  
+  self:drawPolygon({x1 - w1 - rumble_w1, y1, x1 - w1, y1, x2 - w2, y2, x2 - w2 - rumble_w2, y2}, color.rumble)
+  self:drawPolygon({x1 + w1 + rumble_w1, y1, x1 + w1, y1, x2 + w2, y2, x2 + w2 + rumble_w2, y2}, color.rumble)
+  
 end
 
 function Road:drawPolygon(vertexs, color)
@@ -65,7 +77,7 @@ function Road:drawPolygon(vertexs, color)
 end
 
 function Road:project3D(point)
-  -- trasladamos
+  -- trasladamos 
   local transX = point.world.x - Camera.x
   local transY = point.world.y - Camera.y
   local transZ = point.world.z - Camera.z
@@ -96,7 +108,20 @@ function Road:createSection(nSegments)
 end
 
 function Road:createSegment() 
-  table.insert(self.segments, {index = #self.segments + 1, point = {world = {x = 0, y = 0, z = #self.segments * self.segmentLength}, screen = {x = 0, y = 0, w = 0}, scale = -1}, color = {r = 1, g = 1, b = 1, a = (#self.segments%2) + 0.5}})
+  
+  local road = {light = {r = 136/255, g = 136/255, b = 136/255, a = 255/255}, dark = {r = 102/255, g = 102/255, b = 102/255, a = 255/255}}
+  local grass = {light = {r = 66/255, g = 147/255, b = 82/255, a = 255/255}, dark = {r = 57/255, g = 125/255, b = 70/255, a = 255/255}}
+  local rumble = {light = {r = 184/255, g = 49/255, b = 46/255, a = 255/255}, dark = {r = 221/255, g = 221/255, b = 221/255, a = 255/255}}
+  
+  local segment = {index = #self.segments + 1, point = {world = {x = 0, y = 0, z = #self.segments * self.segmentLength}, screen = {x = 0, y = 0, w = 0}, scale = -1}, color = {}}
+  
+  if (math.floor(#self.segments/self.rumble_segments)%2 == 0) then
+    segment.color = {road = road.light, grass = grass.light, rumble = rumble.light}
+  else
+    segment.color = {road = road.dark, grass = grass.dark, rumble = rumble.dark}
+  end
+  
+  table.insert(self.segments, segment)
 end
 
 function Road:getSegment(pos)
