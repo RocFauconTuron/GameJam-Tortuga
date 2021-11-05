@@ -139,14 +139,29 @@ function Road:project3D(point, x, dx)
 end
 
 function Road:createRoad()
-  self:createSection(100, 0, 0)
-  self:createSection(100, 0, 10)
-  self:createSection(50, 0, 5)
-  self:createSection(50, 0, 0)
-  self:createSection(50, 0, -5)
-  self:createSection(100, 0, -10)
-  self:createSection(450, -1, -20)
-  self:createSection(7395)
+  
+  for i=0, 10, 1 do
+    self:createSection(380, math.random(-200, 200) / 100, math.random(-2500, 2500) / 100)
+  end
+  
+  
+  --self:createSection(3797)
+  
+  self:addProps(1, 350, "assets/textures/roca.png", -1)
+  
+end
+
+function Road:addProps(firstSegment, lastSegment, prop, offset)
+  if ((firstSegment >= 1) and (lastSegment <= #self.segments)) then
+    for i=firstSegment, lastSegment, 1 do
+      self:addProp(self.segments[i], prop, offset)
+    end
+  end
+end
+
+function Road:addProp(segment, prop, offset)
+  if (segment.prop) then table.insert(segment.prop, {love.graphics.newImage(prop), offset}) 
+  else segment.prop = {love.graphics.newImage(prop), offset} end
 end
 
 function Road:createSection(nSegments, curve, y)
