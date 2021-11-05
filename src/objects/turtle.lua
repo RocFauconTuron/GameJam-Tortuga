@@ -43,7 +43,7 @@ function Turtle:update(dt)
   Turtle.super.update(self, dt)
   -----------------------------
   self.z = self.z + (self.speed * dt)
-  
+    
   if ((self.left) and (self.position.x > w / 3)) then 
     self.position.x = self.position.x - 1 * (self.speed/self.maxSpeed*2)
     self.screen.x = self.screen.x - 0.01 * (self.speed/self.maxSpeed*2)
@@ -91,7 +91,6 @@ function Turtle:reload()
   self.screen.w = self.width
   self.screen.h = self.height
   
-  
 end
 
 function Turtle:keyPressed(key)
@@ -110,6 +109,10 @@ function Turtle:keyReleased(key)
   if (key == "d") then self.right = false end
   if (key == "w") then self.up = false end
   if (key == "s") then self.down = false end
+end
+
+function Turtle:curveShift(curve)
+  self.position.x = self.position.x + curve
 end
 
 return Turtle
