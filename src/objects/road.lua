@@ -139,30 +139,36 @@ function Road:project3D(point, x, dx)
 end
 
 function Road:createRoad()
+  self:createSection(250, 1.5, 8)
+  self:createSection(150, 0, 15)
+  self:createSection(150, 0, -15)
+  self:createSection(30, 0, 10)
+  self:createSection(30, 0, -10)
+  self:createSection(30, 0, 10)
+  self:createSection(30, 0, -10)
+  self:createSection(450, -1, -20)
+  self:createSection(150)
   self:createSection(250)
-  self:createSection(250, -1)
-  self:createSection(250, -2)
-  self:createSection(250)
-  self:createSection(250, 1)
-  self:createSection(250, 2)
   self:createSection(250)
   self:createSection(5645)
 end
 
-function Road:createSection(nSegments, curve)
+function Road:createSection(nSegments, curve, y)
   for i=0, nSegments, 1 do
-    self:createSegment(curve or 0)
+    local yy = 0
+    if (#self.segments > 0) then yy = (self.segments[#self.segments].point.world.y + (y or 0)) end
+    self:createSegment(curve or 0, yy or 0)
   end
 end
 
-function Road:createSegment(curve) 
+function Road:createSegment(curve, y) 
   
   local road = {light = {r = 136/255, g = 136/255, b = 136/255, a = 255/255}, dark = {r = 102/255, g = 102/255, b = 102/255, a = 255/255}}
   local grass = {light = {r = 66/255, g = 147/255, b = 82/255, a = 255/255}, dark = {r = 57/255, g = 125/255, b = 70/255, a = 255/255}}
   local rumble = {light = {r = 184/255, g = 49/255, b = 46/255, a = 255/255}, dark = {r = 221/255, g = 221/255, b = 221/255, a = 255/255}}
   local lane = {dark = {r = 1, g = 1, b = 1, a = 1}}
   
-  local segment = {index = #self.segments + 1, point = {world = {x = 0, y = 0, z = #self.segments * self.segmentLength}, screen = {x = 0, y = 0, w = 0}, scale = -1}, color = {}, curve = curve}
+  local segment = {index = #self.segments + 1, point = {world = {x = 0, y = y, z = #self.segments * self.segmentLength}, screen = {x = 0, y = 0, w = 0}, scale = -1}, color = {}, curve = curve}
   
   if (math.floor(#self.segments/self.rumble_segments)%2 == 0) then
     segment.color = {road = road.light, grass = grass.light, rumble = rumble.light}
