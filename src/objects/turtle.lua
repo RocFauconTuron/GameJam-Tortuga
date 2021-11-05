@@ -44,13 +44,14 @@ function Turtle:update(dt)
   -----------------------------
   self.z = self.z + (self.speed * dt)
   
-  print(self.position.x .. "  " .. self.screen.x)
-    
+  local extra = 0
+  if (self.speed <= 1) then extra = 1 end
+  
   if ((self.left) and (self.position.x > w / 3)) then 
-    self.position.x = self.position.x - 1 * (self.speed/self.maxSpeed*2)
+    self.position.x = self.position.x - 1 * (self.speed/self.maxSpeed*2) - extra
   end
   if ((self.right) and (self.position.x < w / 1.5)) then 
-    self.position.x = self.position.x + 1 * (self.speed/self.maxSpeed*2)
+    self.position.x = self.position.x + 1 * (self.speed/self.maxSpeed*2) + extra
   end
   
   self.screen.x = (self.position.x - (w / 2)) / 100
@@ -70,7 +71,7 @@ function Turtle:update(dt)
     self.speed = self.speed - (self.maxSpeed / 55)
   end
   
-  self.speed = math.min(self.maxSpeed, (math.max(1000, self.speed)))
+  self.speed = math.min(self.maxSpeed, (math.max(0, self.speed)))
   
 end
 
