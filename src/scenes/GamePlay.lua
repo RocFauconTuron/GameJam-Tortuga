@@ -17,41 +17,36 @@ local w, h = love.graphics.getDimensions()
 
 -- Class
 local GamePlay = Scene:extend()
----------------------------------
+-------------------------------
 
 function GamePlay:new()
   GamePlay.super.new(self)
-  --------------------------
+  ------------------------
   
-  -- Init the Camera for this Scene
   Camera:new()
   
-  --self:addEntity(Entity(w / 2, h / 2, "assets/textures/background.png"))
+  self:addEntity(Entity(w / 2, h / 2, "assets/textures/background.png"))
   road_id = self:addEntity(Road())
-  --turtle_id = self:addEntity(Turtle(w / 2, h, "assets/textures/turtle.png", 0, 0, 1, 1, 1))
+  turtle_id = self:addEntity(Turtle(0, 0, "assets/textures/turtle.png", 0, 0, 1, 1, 1))
   
 end
 
 function GamePlay:update(dt)
   GamePlay.super.update(self, dt)
-  --------------------------------  
+  --------------------------------
+  Camera:update(self:getEntity(turtle_id), dt)
   
-  --local turtle = self:getEntity(turtle_id)
-  local road = self:getEntity(road_id)
-  
-  --Camera.z = self.increase(Camera.z, dt * turtle.speed, road.trackLength)
-  
+  if (self:getEntity(turtle_id).z > 10000) then self:nextScene() end
 end
 
 function GamePlay:draw()
   GamePlay.super.draw(self)
-  --------------------------- 
+  -------------------------
 end
 
 function GamePlay:reload()
   GamePlay.super.reload(self)
-  -----------------------------
-  --self:getEntity(turtle_id).position.y = h - self:getEntity(turtle_id).height / 2
+  ---------------------------
 end
 
 return GamePlay
