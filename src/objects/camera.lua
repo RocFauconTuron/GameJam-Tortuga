@@ -21,6 +21,7 @@ end
 
 function Camera:update(turtle, dt)
   self.x = turtle.screen.x * self.roadWidth
+  self.y = turtle.screen.y + 1000
   self.z = turtle.z - (self.distToPlayer)
   if (self.z < 0) then self.z = 0 end
 end
