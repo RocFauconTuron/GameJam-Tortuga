@@ -15,7 +15,7 @@ local Road = Object:extend()
 function Road:new()
   self.segments = {}
   self.segmentLength = 100
-  self.roadWidth = 1000
+  self.roadWidth = 1200
   self.rumble_segments = 5
   
   self.roadLanes = 3
@@ -132,7 +132,7 @@ function Road:project3D(point)
 end
 
 function Road:createRoad()
-  self:createSection(1000)
+  self:createSection(7395)
 end
 
 function Road:createSection(nSegments)
