@@ -11,6 +11,7 @@ function Camera:new()
   self.x = 0
   self.y = 1000
   self.distToPlayer = 500
+  self.roadWidth = 1000
   
   self.visible_segments = 200
   
@@ -18,8 +19,10 @@ function Camera:new()
   
 end
 
-function Camera:update(dt)
-    self.z = -self.distToPlayer
+function Camera:update(turtle, dt)
+  self.x = turtle.screen.x * self.roadWidth
+  self.z = turtle.z - (self.distToPlayer)
+  if (self.z < 0) then self.z = 0 end
 end
 
 function Camera:draw()
