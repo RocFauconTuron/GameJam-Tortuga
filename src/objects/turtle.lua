@@ -21,51 +21,28 @@ function Turtle:new(x, y, texture, speed, rotation, animations, frames, framerat
   self.up = false
   self.down = false
   
-  self.fps = 60
-  self.step = 1/self.fps
-  self.trackLength = 500*400
-  self.lanes = 3
+  self.z = 0
+  self.w = (self.width / 1000) * 2
+  self.screen = {x = 0, y = 0, w = 0, h = 0}
   
-  self.segmentLenght = 400
-  self.fodDensity = 5
-  self.maxSpeed = self.segmentLenght/self.step
-  self.accel = self.maxSpeed/3
-  self.breaking = -self.maxSpeed
-  self.decel = -self.maxSpeed/3
-  self.offRoadDecel = -self.maxSpeed/2
-  self.offRoadLimit = self.maxSpeed/4
+  self.screen.w = self.width
+  self.screen.h = self.height
   
-  self.position.z = (Camera.cameraHeight * Camera.cameraDepth)
+  self.position.x = w / 2
+  self.position.y = h - self.screen.h / 2
+  
+  self.segmentLength = 100
+  
+  self.maxSpeed = (self.segmentLength) / (1/60)
+  
+  self.speed = self.maxSpeed
   
 end
 
 function Turtle:update(dt)
   Turtle.super.update(self, dt)
   -----------------------------
-  
-  local dx = dt * 1000 * (self.speed / self.maxSpeed)
-  
-  if (self.left) then
-    self.position.x = self.position.x - dx
-  elseif (self.right) then
-    self.position.x = self.position.x + dx
-  end
-
-  if (self.up) then
-    self.speed = self.speed + (self.accel * dt)
-  elseif (self.down) then
-    self.speed = self.speed + (self.breaking * dt)
-  else
-    self.speed = self.speed + (self.decel * dt)
-  end
-  
-  if (((self.position.x < w / 3) or (self.position.y > w / 1.5)) and (self.speed > self.offRoadLimit)) then
-    self.speed = self.speed + (self.offRoadDecel * dt)
-  end
-  
-  self.position.x = math.max(w / 3, math.min(self.position.x, w / 1.5))
-  self.speed = math.max(0, math.min(self.speed, self.maxSpeed))
-  
+  self.z = self.z + (self.speed * dt)
 end
 
 function Turtle:draw()
@@ -76,6 +53,18 @@ end
 function Turtle:reload()
   Turtle.super.reload(self)
   -------------------------
+  self.speed = self.maxSpeed
+  self.position.x = w / 2
+  self.position.y = h - (self.screen.h / 1.75)
+  
+  self.z = 0
+  self.w = (self.width / 1000) * 2
+  self.screen = {x = 0, y = 0, w = 0, h = 0}
+  
+  self.screen.w = self.width
+  self.screen.h = self.height
+  
+  
 end
 
 function Turtle:keyPressed(key)
