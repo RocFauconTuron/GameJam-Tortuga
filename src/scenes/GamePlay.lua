@@ -4,6 +4,7 @@ local Scene = Scene or require "src/engine/Scene"
 local Timer = Timer or require "src/engine/Timer"
 
 -- Objects
+Camera = Camera or require "src/objects/camera"
 local Road = Road or require "src/objects/Road"
 local Turtle = Turtle or require "src/objects/Turtle"
 
@@ -20,6 +21,9 @@ local GamePlay = Scene:extend()
 function GamePlay:new()
   GamePlay.super.new(self)
   --------------------------
+  
+  -- Init the Camera for this Scene
+  Camera:new()
   
   turtle_id = self:addEntity(Turtle(w / 2, h, "assets/textures/turtle.png", 0, 0, 1, 1, 1))
   road_id = self:addEntity(Road())
