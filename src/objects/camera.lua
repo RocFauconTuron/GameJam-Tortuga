@@ -10,7 +10,7 @@ function Camera:new()
   self.z = 0
   self.x = 0
   self.y = 1000
-  self.distToPlayer = 100
+  self.distToPlayer = 500
   
   self.visible_segments = 200
   
