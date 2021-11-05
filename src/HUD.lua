@@ -1,33 +1,21 @@
 
--- Engine
-local Actor = Actor or require "Scripts/actor"
+-- Libs
+local Object = Object or require "lib/classic"
 
 -- Locals
-
 local w, h = love.graphics.getDimensions()
 
 -- Class
-local HUD = Actor:extend()
---------------------------
+local HUD = Object:extend()
+-----------------------------
 
 function HUD:new()
-  HUD.super.new(self)
-  -------------------
 end
 
-function HUD:update(dt)
-  HUD.super.update(self, dt)
-  --------------------------
+function HUD:updateHUD(data)
 end
 
 function HUD:draw()
-  HUD.super.draw(self)
-  --------------------
-end
-
-function HUD:reload()
-  HUD.super.reload(self)
-  ----------------------
 end
 
 return HUD
