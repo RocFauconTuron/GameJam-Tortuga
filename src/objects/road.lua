@@ -6,7 +6,6 @@ local Object = Object or require "lib/classic"
 Camera = Camera or require "src/objects/camera"
 
 -- Locals
-
 local w, h = love.graphics.getDimensions()
 
 -- Class
@@ -19,7 +18,14 @@ function Road:new()
   self.roadWidth = 1000
   self.rumble_segments = 5
   
+  self.roadLanes = 3
+  
   self:createRoad()
+  
+  for i=1, self.rumble_segments, 1 do
+    self.segments[i].color.road = {r = 1, g = 1, b = 1, a = 1}
+    self.segments[#self.segments - 1 - i].color.road = {r = 1, g = 1, b = 1, a = 1}
+  end
   
   self.total_segments = #self.segments
   self.roadLength = self.total_segments * self.segmentLength
@@ -31,6 +37,8 @@ end
 
 function Road:draw()
   
+  local clipBottomLine = h
+  
   local baseSegment = self:getSegment(Camera.z)
   local baseIndex = baseSegment.index
   
@@ -40,8 +48,10 @@ function Road:draw()
     local currSegment = self.segments[currIndex]
     
     self:project3D(currSegment.point)
-     
-    if (i > 1) then
+    
+    local currBottomLine = currSegment.point.screen.y
+    
+    if ((i > 1) and (currBottomLine < clipBottomLine)) then
       
       local prevIndex = 0
       if (currIndex > 0) then prevIndex = currIndex - 1 else prevIndex = self.total_segments - 1 end
@@ -49,7 +59,11 @@ function Road:draw()
       
       local p1 = prevSegment.point.screen
       local p2 = currSegment.point.screen
+      
       self:drawSegment(p1.x, p1.y, p1.w, p2.x, p2.y, p2.w, currSegment.color)
+      
+      clipBottomLine = currBottomLine
+      
     end
     
   end
@@ -68,6 +82,26 @@ function Road:drawSegment(x1, y1, w1, x2, y2, w2, color)
   
   self:drawPolygon({x1 - w1 - rumble_w1, y1, x1 - w1, y1, x2 - w2, y2, x2 - w2 - rumble_w2, y2}, color.rumble)
   self:drawPolygon({x1 + w1 + rumble_w1, y1, x1 + w1, y1, x2 + w2, y2, x2 + w2 + rumble_w2, y2}, color.rumble)
+  
+  if (color.lane) then
+    local line_w1 = (w1 / 20) / 2
+    local line_w2 = (w2 / 20) / 2
+    
+    local lane_w1 = (w1 * 2) / self.roadLanes
+    local lane_w2 = (w2 * 2) / self.roadLanes
+    
+    local lane_x1 = x1 - w1
+    local lane_x2 = x2 - w2
+    
+    for i=2, self.roadLanes, 1 do
+      lane_x1 = lane_x1 + lane_w1
+      lane_x2 = lane_x2 + lane_w2
+      
+      self:drawPolygon({lane_x1 - line_w1, y1, lane_x1 + line_w1, y1, lane_x2 + line_w2, y2, lane_x2 - line_w2, y2}, color.lane)
+      
+    end
+    
+  end
   
 end
 
@@ -91,9 +125,9 @@ function Road:project3D(point)
   local projectedW = point.scale * self.roadWidth
   
   -- escalamos a cordenada sde mundo
-  point.screen.x = math.ceil((1 + projectedX) * (w / 2))
-  point.screen.y = math.ceil((1 - projectedY) * (h / 2))
-  point.screen.w = math.ceil(projectedW * (w / 2))
+  point.screen.x = math.floor((1 + projectedX) * (w / 2))
+  point.screen.y = math.floor((1 - projectedY) * (h / 2))
+  point.screen.w = math.floor(projectedW * (w / 2))
   
 end
 
@@ -102,7 +136,7 @@ function Road:createRoad()
 end
 
 function Road:createSection(nSegments)
-  for i=1, nSegments, 1 do
+  for i=0, nSegments, 1 do
     self:createSegment()
   end
 end
@@ -112,13 +146,14 @@ function Road:createSegment()
   local road = {light = {r = 136/255, g = 136/255, b = 136/255, a = 255/255}, dark = {r = 102/255, g = 102/255, b = 102/255, a = 255/255}}
   local grass = {light = {r = 66/255, g = 147/255, b = 82/255, a = 255/255}, dark = {r = 57/255, g = 125/255, b = 70/255, a = 255/255}}
   local rumble = {light = {r = 184/255, g = 49/255, b = 46/255, a = 255/255}, dark = {r = 221/255, g = 221/255, b = 221/255, a = 255/255}}
+  local lane = {dark = {r = 1, g = 1, b = 1, a = 1}}
   
   local segment = {index = #self.segments + 1, point = {world = {x = 0, y = 0, z = #self.segments * self.segmentLength}, screen = {x = 0, y = 0, w = 0}, scale = -1}, color = {}}
   
   if (math.floor(#self.segments/self.rumble_segments)%2 == 0) then
     segment.color = {road = road.light, grass = grass.light, rumble = rumble.light}
   else
-    segment.color = {road = road.dark, grass = grass.dark, rumble = rumble.dark}
+    segment.color = {road = road.dark, grass = grass.dark, rumble = rumble.dark, lane = lane.dark}
   end
   
   table.insert(self.segments, segment)
