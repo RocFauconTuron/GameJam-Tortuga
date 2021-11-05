@@ -43,6 +43,33 @@ function Turtle:update(dt)
   Turtle.super.update(self, dt)
   -----------------------------
   self.z = self.z + (self.speed * dt)
+  
+  if ((self.left) and (self.position.x > w / 3)) then 
+    self.position.x = self.position.x - 1 * (self.speed/self.maxSpeed*2)
+    self.screen.x = self.screen.x - 0.01 * (self.speed/self.maxSpeed*2)
+  end
+  if ((self.right) and (self.position.x < w / 1.5)) then 
+    self.position.x = self.position.x + 1 * (self.speed/self.maxSpeed*2)
+    self.screen.x = self.screen.x + 0.01 * (self.speed/self.maxSpeed*2)
+  end
+  
+  if (self.up) then self.speed = self.speed + (self.maxSpeed / 50) end
+  if (self.down) then self.speed = self.speed - (self.maxSpeed / 25) end
+  
+  self.speed = self.speed - (self.maxSpeed / 200)
+  
+  -- Limite oc n el mapa dcho
+  if (self.position.x > w / 1.65) then
+    self.speed = self.speed - (self.maxSpeed / 55)
+  end
+  
+  -- limite ocn el mapa izq
+  if (self.position.x < w / 2.55) then
+    self.speed = self.speed - (self.maxSpeed / 55)
+  end
+  
+  self.speed = math.min(self.maxSpeed, (math.max(100, self.speed)))
+  
 end
 
 function Turtle:draw()
