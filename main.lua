@@ -2,6 +2,7 @@
 -- Scenes
 local GI = SceneIntro or require "src/scenes/GameIntro" -- ID 1
 local GP = SceneGame or require "src/scenes/GamePlay"   -- ID 2
+local GO = ScaeneOver or require "src/scenes/GameOver"  -- ID 3
 
 -- Locals
 local mCurrentScene = 1
@@ -16,15 +17,14 @@ function love.load()
   love.graphics.newFont("assets/fonts/SeaTurtle.ttf")
   
   -- Loading Scenes in mScenes
-  table.insert(mScenes, GI)
-  table.insert(mScenes, GP)
+  table.insert(mScenes, GI())
+  table.insert(mScenes, GP())
+  table.insert(mScenes, GO())
 
   -- Setting Scene Flow
   GI:setNextSceneID(2)
-  
-  for _,v in ipairs(mScenes) do
-    v:new()
-  end
+  GP:setNextSceneID(3)
+  GO:setNextSceneID(1)
 
 end
 
