@@ -36,7 +36,8 @@ function GamePlay:update(dt)
   --------------------------------
   Camera:update(self:getEntity(turtle_id), dt)
   
-  if (self:getEntity(turtle_id).z > 10000) then self:nextScene() end
+  if (Camera.z > 719500) then self:nextScene() end
+  
 end
 
 function GamePlay:draw()
