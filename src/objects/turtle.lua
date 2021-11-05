@@ -3,10 +3,9 @@
 local AnimatedActor = AnimatedActor or require "src/engine/AnimatedActor"
 
 -- Objects
-local Camera = Camera or require "src/objects/camera"
+Camera = Camera or require "src/objects/camera"
 
 -- Locals
-
 local w, h = love.graphics.getDimensions()
 
 -- Class
@@ -17,9 +16,6 @@ function Turtle:new(x, y, texture, speed, rotation, animations, frames, framerat
   Turtle.super.new(self, x, y, texture, speed, rotation, animations, frames, framerate)
   -------------------------------------------------------------------------------------
   
-  self.camera = Camera()
-  self.camera:new()
-  
   self.left = false
   self.right = false
   self.up = false
@@ -27,13 +23,10 @@ function Turtle:new(x, y, texture, speed, rotation, animations, frames, framerat
   
   self.fps = 60
   self.step = 1/self.fps
-  self.roadWidht = 2000
   self.trackLength = 500*400
   self.lanes = 3
-  self.fieldOfView = 100
-  self.cameraHeight = 1000
-  self.cameraDepth = nil
-  self.drawDistance = 300
+  
+  self.segmentLenght = 400
   self.fodDensity = 5
   self.maxSpeed = self.segmentLenght/self.step
   self.accel = self.maxSpeed/3
@@ -41,6 +34,8 @@ function Turtle:new(x, y, texture, speed, rotation, animations, frames, framerat
   self.decel = -self.maxSpeed/3
   self.offRoadDecel = -self.maxSpeed/2
   self.offRoadLimit = self.maxSpeed/4
+  
+  self.position.z = (Camera.cameraHeight * Camera.cameraDepth)
   
 end
 
@@ -59,9 +54,9 @@ function Turtle:update(dt)
   Turtle.super.update(self, dt)
   -----------------------------
   
-  self.camera.z = self.increase(self.camera.z, dt * self.speed, self.trackLength)
+  Camera.z = self.increase(Camera.z, dt * self.speed, self.trackLength)
   
-  print(self.camera.z)
+  print("Pos " .. Camera.z .. " Speed: " .. self.speed)
   
   local dx = dt * 1000 * (self.speed / self.maxSpeed)
   
