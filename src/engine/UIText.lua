@@ -3,8 +3,8 @@
 -----------------------------------------------------------------
 
 -- Libs
-local Object = Object or require "src/lib/classic"
-local Vector = Vector or require "src/lib/vector"
+local Object = Object or require "lib/classic"
+local Vector = Vector or require "lib/vector"
 
 -- Class
 local UIText = Object:extend()
@@ -22,16 +22,10 @@ function UIText:new(x, y, text, align, size, color)
   self:fixPosition()
 end
 
-function UIText:update(dt)
-end
-
 function UIText:draw()
   love.graphics.setFont(self.font)
   love.graphics.setColor(self.color)
   love.graphics.print(self.text, self.fixed_position.x, self.fixed_position.y)
-end
-
-function UIText:reload()
 end
 
 function UIText:setAlign(align)

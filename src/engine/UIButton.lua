@@ -3,7 +3,7 @@
 -----------------------------------------------------------------
 
 -- Libs
-local Vector = Vector or require "src/lib/vector"
+local Vector = Vector or require "lib/vector"
 
 -- Engine
 local Entity = Entity or require "src/engine/Entity"

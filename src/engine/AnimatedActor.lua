@@ -3,8 +3,8 @@
 -----------------------------------------------------------------
 
 -- Libs
-local Object = Object or require "src/lib/classic"
-local Vector = Vector or require "src/lib/vector"
+local Object = Object or require "lib/classic"
+local Vector = Vector or require "lib/vector"
 
 -- Engine
 local Actor = Actor or require "src/engine/Actor"
@@ -14,7 +14,7 @@ local Timer = Timer or require "src/engine/Timer"
 local AnimatedActor = Actor:extend()
 ------------------------------------
 
-function AnimatedActor:new(x, y, texture, speed, rotation, animations, frames, framerate)
+function AnimatedActor:new(x, y, texture, speed, rotation, animations, frames, framerate, loop)
   AnimatedActor.super.new(self, x, y, texture, speed, rotation)
   -------------------------------------------------------------
   self.frame = 1
@@ -24,6 +24,8 @@ function AnimatedActor:new(x, y, texture, speed, rotation, animations, frames, f
   self.animation_frames = {}
   self.frame_rate = framerate or 1
   self.animation_time = 0
+  self.loop = loop or false
+  self.animation_finished = false
   self:loadAnimation(texture, animations, frames)
 end
 
@@ -35,13 +37,18 @@ function AnimatedActor:update(dt)
     self.animation_time = 0
     self.frame = self.frame + 1
     if (self.frame > self.total_frames) then
-      self.frame = 1
+      if (self.loop) then
+        self.frame = 1
+      else
+        self.frame = self.frame - 1
+        self.animation_finished = true
+      end
     end
   end
 end
 
 function AnimatedActor:draw()
-  love.graphics.setColor(1, 1, 1, 1)
+  love.graphics.setColor(self.color.r, self.color.g, self.color.b, self.color.a)
   love.graphics.draw(self.texture, self.animation_frames[self.animation][self.frame], self.position.x, self.position.y, self.rotation, self.scale.x, self.scale.y, self.origin.x, self.origin.y)
 end
 
@@ -50,16 +57,7 @@ function AnimatedActor:reload()
   --------------------------------
   self.frame = 1
   self.animation = 1
-end
-
-function AnimatedActor:keyPressed(key)
-  AnimatedActor.super.keyPressed(self, key)
-  -----------------------------------------
-end
-
-function AnimatedActor:keyReleased(key)
-  AnimatedActor.super.keyReleased(self, key)
-  ------------------------------------------
+  self.animation_finished = false
 end
 
 function AnimatedActor:loadAnimation(path, animations, frames)
@@ -85,6 +83,10 @@ function AnimatedActor:setAnimation(animation)
   end
   self.frame = 1
   self.animation_time = 0
+end
+
+function AnimatedActor:animFinished()
+  return self.animation_finished
 end
 
 return AnimatedActor

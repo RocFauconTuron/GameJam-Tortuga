@@ -3,7 +3,7 @@
 -----------------------------------------------------------------
 
 -- Libs
-local Object = Object or require "src/lib/classic"
+local Object = Object or require "lib/classic"
 
 -- Engine
 local Timer = Timer or require "src/engine/Timer"
@@ -21,8 +21,9 @@ end
 
 function Scene:update(dt)
   self.time = self.time + dt
-  for _, v in ipairs(self.entities) do
+  for i, v in ipairs(self.entities) do
     if (v.update) then v:update(dt) end
+    if (v.isDeath) then if (v:isDeath()) then self:removeEntity(i) end end
   end
 end
 
@@ -50,6 +51,12 @@ end
 function Scene:keyReleased(key)
   for _, v in ipairs(self.entities) do
     if (v.keyReleased) then v:keyReleased(key) end
+  end
+end
+
+function Scene:mousePressed(x, y, button, istouch, presses)
+  for _, v in ipairs(self.entities) do
+    if (v.mousePressed) then v:mousePressed(x, y, button, istouch, presses) end
   end
 end
 

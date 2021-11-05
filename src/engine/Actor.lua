@@ -3,8 +3,8 @@
 -----------------------------------------------------------------
 
 -- Libs
-local Object = Object or require "src/lib/classic"
-local Vector = Vector or require "src/lib/vector"
+local Object = Object or require "lib/classic"
+local Vector = Vector or require "lib/vector"
 
 -- Engine
 local Entity = Entity or require "src/engine/Entity"
@@ -27,26 +27,12 @@ function Actor:update(dt)
   -- self.position = self.position + self.forward * self.speed * dt
 end
 
-function Actor:draw()
-  Actor.super.draw(self)
-  ----------------------
-end
-
 function Actor:reload()
   Actor.super.reload(self)
   ------------------------
+  self.alive = true
   self.forward = Vector.new(0, 0)
   self.speed = self.base_speed
-end
-
-function Actor:keyPressed(key)
-  Actor.super.keyPressed(self, key)
-  ---------------------------------
-end
-
-function Actor:keyReleased(key)
-  Actor.super.keyReleased(self, key)
-  ----------------------------------
 end
 
 return Actor
