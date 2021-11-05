@@ -11,6 +11,7 @@ function Camera:new()
   self.fieldOfView = 100
   self.cameraDepth = 1 / math.tan((self.fieldOfView/2) * math.pi/180)
   self.cameraHeight = 1000
+  self.drawDistance = 300
 end
 
 function Camera:update(dt)

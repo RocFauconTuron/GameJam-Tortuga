@@ -39,24 +39,9 @@ function Turtle:new(x, y, texture, speed, rotation, animations, frames, framerat
   
 end
 
- function Turtle.increase(start, increment, max)
-  local result = start + increment;
-  while (result >= max) do
-    result = result - max;
-  end
-  while (result < 0) do
-    result = result + max;
-  end
-  return result;
-end
-
 function Turtle:update(dt)
   Turtle.super.update(self, dt)
   -----------------------------
-  
-  Camera.z = self.increase(Camera.z, dt * self.speed, self.trackLength)
-  
-  print("Pos " .. Camera.z .. " Speed: " .. self.speed)
   
   local dx = dt * 1000 * (self.speed / self.maxSpeed)
   
