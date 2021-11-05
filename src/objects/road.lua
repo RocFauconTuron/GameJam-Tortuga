@@ -15,74 +15,93 @@ local Road = Object:extend()
 
 function Road:new()
   self.segments = {}
-  self.segmentLenght = 400
-  self.rumpleLenght = 3
-  self.trackLength = nil
-  self.roadWidht = 2000
-  self.roadLines = 3
+  self.segmentLength = 100
+  self.roadWidth = 1000
+  
+  self:createRoad()
+  
+  self.total_segments = #self.segments
+  self.roadLength = self.total_segments * self.segmentLength
+  
 end
 
 function Road:update(dt)
 end
 
-function Road:project(s, cameraX, cameraY, cameraZ, cameraDepth, roadWidth)
-  s.camera.x = s.camera.x - cameraX
-  s.camera.y = s.camera.y - cameraY
-  s.camera.z = s.camera.z - cameraZ
-  s.screen.scale = cameraDepth / segment.camera.z
-  s.screen.x = math.ceil((w / 2) + (p.screen.scale * p.camera.x * w / 2))
-  s.screen.y = math.ceil((h / 2) + (p.screen.scale * p.camera.y * y / 2))
-  s.screen.w = math.ceil(p.screen.scale * roadWidth * w / 2)
-  return s
-end
-
 function Road:draw()
   
-  local baseSegment = self:findSegment(Camera.z)
-  local maxy = h
+  local baseSegment = self:getSegment(Camera.z)
+  local baseIndex = baseSegment.index
   
-  for n = 1, Camera.drawDistance, 1 do
-    local i = (baseSegment.index + n) % #self.segments
-    local segment = self.segments[i];
-
-    segment.p1 = self:project(segment.p1, self.turtle.position.x * self.roadWidth), Camera.cameraHeight, Camera.z, Camera.cameraDepth, self.roadWidth)
-    segment.p2 = self:project(segment.p2, self.turtle.position.x * self.roadWidth), Camera.cameraHeight, Camera.z, Camera.cameraDepth, self.roadWidth)
-
-    if ((segment.p1.camera.z <= Camera.cameraDepth) or (segment.p2.screen.y >= maxy)) then
-      self:drawSegment(segment.p1.screen.x, segment.p1.screen.y, segment.p1.screen.w, segment.p2.screen.x, segment.p2.screen.y, segment.p2.screen.w, segment.fog, segment.color)
-      maxy = segment.p2.screen.y;
+  for i=1, Camera.visible_segments, 1 do
+    
+    local currIndex = (baseIndex + i) % self.total_segments
+    local currSegment = self.segments[currIndex]
+    
+    self:project3D(currSegment.point)
+     
+    if (i > 1) then
+      
+      local prevIndex = 0
+      if (currIndex > 0) then prevIndex = currIndex - 1 else prevIndex = self.total_segments - 1 end
+      local prevSegment = self.segments[prevIndex]
+      
+      local p1 = prevSegment.point.screen
+      local p2 = currSegment.point.screen
+      self:drawSegment(p1.x, p1.y, p1.w, p2.x, p2.y, p2.w, currSegment.color)
     end
+    
   end
   
 end
 
-function Road:drawSegment(x1, y1, w1, x2, y2, w2, fog, color)
-  
+function Road:drawSegment(x1, y1, w1, x2, y2, w2, color)
+  self:drawPolygon({x1 - w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2}, color)
 end
 
-function Road:drawPoly(v, color)
+function Road:drawPolygon(vertexs, color)
   love.graphics.setColor(color.r, color.g, color.b, color.a)
-  love.graphics.polygon("fill", v)
+  love.graphics.polygon("fill", vertexs)
 end
 
-function Road:reload()
+function Road:project3D(point)
+  -- trasladamos
+  local transX = point.world.x - Camera.x
+  local transY = point.world.y - Camera.y
+  local transZ = point.world.z - Camera.z
+  
+  -- escalamos
+  point.scale = Camera.distToPlane / transZ
+  
+  -- proyetctamos
+  local projectedX = point.scale * transX
+  local projectedY = point.scale * transY
+  local projectedW = point.scale * self.roadWidth
+  
+  -- escalamos a cordenada sde mundo
+  point.screen.x = math.ceil((1 + projectedX) * (w / 2))
+  point.screen.y = math.ceil((1 - projectedY) * (h / 2))
+  point.screen.w = math.ceil(projectedW * (w / 2))
+  
 end
 
-function Road:findSegment(z)
-  return self.segments[math.floor(z / self.segmentLenght) % #self.segments]
+function Road:createRoad()
+  self:createSection(1000)
 end
 
-function Road:resetRoad()
-  self.segments = {}
-  for i = 1, 500, 1 do
-    local s = {}
-    s.index = i
-    s.p1 = {world = {x = 0, y = 0, z = (i - 1) * self.segmentLenght}, camera = {x = 0, y = 0, z = 0}, screen = {x = 0, y = 0, w = 0, scale = 0}}
-    s.p2 = {world = {x = 0, y = 0, z = (i) * self.segmentLenght},     camera = {x = 0, y = 0, z = 0}, screen = {x = 0, y = 0, w = 0, scale = 0}}
-    if (math.floor(i / self.rumbleLenght) % 2 == 0) then s.color = {r = 1, g = 1, b = 1, a = 1} else s.color = {r = 1, g = 0, b = 1, a = 1} end
-    table.insert(self.segments, s)
+function Road:createSection(nSegments)
+  for i=1, nSegments, 1 do
+    self:createSegment()
   end
-  self.trackLength = #self.segments * self.segmentLenght
+end
+
+function Road:createSegment() 
+  table.insert(self.segments, {index = #self.segments + 1, point = {world = {x = 0, y = 0, z = #self.segments * self.segmentLength}, screen = {x = 0, y = 0, w = 0}, scale = -1}, color = {r = 1, g = 1, b = 1, a = (#self.segments%2) + 0.5}})
+end
+
+function Road:getSegment(pos)
+  if (pos < 0) then pos = pos + self.roadLength end
+  return self.segments[(math.floor(pos / self.segmentLength) % self.total_segments) + 1]
 end
 
 return Road
