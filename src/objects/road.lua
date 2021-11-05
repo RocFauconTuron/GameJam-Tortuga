@@ -42,12 +42,19 @@ function Road:draw()
   local baseSegment = self:getSegment(Camera.z)
   local baseIndex = baseSegment.index
   
+  local basePercent = (Camera.z % self.segmentLength) / self.segmentLength
+  local x = 0
+  local dx = -(baseSegment.curve * basePercent)
+  
   for i=1, Camera.visible_segments, 1 do
     
     local currIndex = (baseIndex + i) % self.total_segments
     local currSegment = self.segments[currIndex]
     
-    self:project3D(currSegment.point)
+    self:project3D(currSegment.point, x, dx)
+    
+    x = x + dx
+    dx = dx + currSegment.curve
     
     local currBottomLine = currSegment.point.screen.y
     
@@ -110,9 +117,9 @@ function Road:drawPolygon(vertexs, color)
   love.graphics.polygon("fill", vertexs)
 end
 
-function Road:project3D(point)
+function Road:project3D(point, x, dx)
   -- trasladamos 
-  local transX = point.world.x - Camera.x
+  local transX = point.world.x - Camera.x - x - dx
   local transY = point.world.y - Camera.y
   local transZ = point.world.z - Camera.z
   
@@ -132,23 +139,30 @@ function Road:project3D(point)
 end
 
 function Road:createRoad()
-  self:createSection(7395)
+  self:createSection(250)
+  self:createSection(250, -1)
+  self:createSection(250, -2)
+  self:createSection(250)
+  self:createSection(250, 1)
+  self:createSection(250, 2)
+  self:createSection(250)
+  self:createSection(5645)
 end
 
-function Road:createSection(nSegments)
+function Road:createSection(nSegments, curve)
   for i=0, nSegments, 1 do
-    self:createSegment()
+    self:createSegment(curve or 0)
   end
 end
 
-function Road:createSegment() 
+function Road:createSegment(curve) 
   
   local road = {light = {r = 136/255, g = 136/255, b = 136/255, a = 255/255}, dark = {r = 102/255, g = 102/255, b = 102/255, a = 255/255}}
   local grass = {light = {r = 66/255, g = 147/255, b = 82/255, a = 255/255}, dark = {r = 57/255, g = 125/255, b = 70/255, a = 255/255}}
   local rumble = {light = {r = 184/255, g = 49/255, b = 46/255, a = 255/255}, dark = {r = 221/255, g = 221/255, b = 221/255, a = 255/255}}
   local lane = {dark = {r = 1, g = 1, b = 1, a = 1}}
   
-  local segment = {index = #self.segments + 1, point = {world = {x = 0, y = 0, z = #self.segments * self.segmentLength}, screen = {x = 0, y = 0, w = 0}, scale = -1}, color = {}}
+  local segment = {index = #self.segments + 1, point = {world = {x = 0, y = 0, z = #self.segments * self.segmentLength}, screen = {x = 0, y = 0, w = 0}, scale = -1}, color = {}, curve = curve}
   
   if (math.floor(#self.segments/self.rumble_segments)%2 == 0) then
     segment.color = {road = road.light, grass = grass.light, rumble = rumble.light}
