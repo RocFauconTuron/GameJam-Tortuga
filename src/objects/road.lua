@@ -71,6 +71,15 @@ function Road:draw()
       
       clipBottomLine = currBottomLine
       
+      if (currSegment.props) then
+        for _,v in ipairs(currSegment.props) do
+          local sp = v[1]
+          local px = currSegment.point.screen.x + currSegment.point.scale * w / 2 - v[2]
+          local py = currSegment.point.screen.y - 5
+          local sc = sp:getHeight() * currSegment.point.screen.w
+          love.graphics.draw(sp, px, py, 0, sc, sc)
+        end
+      end
     end
     
   end
@@ -146,8 +155,11 @@ function Road:createRoad()
   
   
   --self:createSection(3797)
-  
-  self:addProps(1, 350, "assets/textures/roca.png", -1)
+
+  for i=500, #self.segments, 50 do
+    self:addProps(i, i, "assets/textures/roca.png", -1)
+    self:addProps(i, i, "assets/textures/roca.png", 1)
+  end
   
 end
 
@@ -160,8 +172,9 @@ function Road:addProps(firstSegment, lastSegment, prop, offset)
 end
 
 function Road:addProp(segment, prop, offset)
-  if (segment.prop) then table.insert(segment.prop, {love.graphics.newImage(prop), offset}) 
-  else segment.prop = {love.graphics.newImage(prop), offset} end
+  local t = {love.graphics.newImage(prop), offset}
+  if (segment.props == nil) then segment.props = {} end
+  table.insert(segment.props, t) 
 end
 
 function Road:createSection(nSegments, curve, y)
