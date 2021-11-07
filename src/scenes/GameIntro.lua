@@ -38,9 +38,7 @@ end
 function GameIntro:keyPressed(key)
   GameIntro.super.keyPressed(self, key)
   -------------------------------------
-  if (key == "space") then
-    self:nextScene()
-  end
+  if (key == "space") then self:nextScene() end
 end
 
 return GameIntro
