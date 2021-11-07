@@ -48,6 +48,8 @@ function AnimatedActor:update(dt)
 end
 
 function AnimatedActor:draw()
+  -- Draw Method for AnimatedActor
+  --------------------------------
   love.graphics.setColor(self.color.r, self.color.g, self.color.b, self.color.a)
   love.graphics.draw(self.texture, self.animation_frames[self.animation][self.frame], self.position.x, self.position.y, self.rotation, self.scale.x, self.scale.y, self.origin.x, self.origin.y)
 end
