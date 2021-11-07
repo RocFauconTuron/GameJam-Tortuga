@@ -35,7 +35,7 @@ function Turtle:new(x, y, texture, speed, rotation, animations, frames, framerat
   
   self.maxSpeed = (self.segmentLength) / (1/60)
   
-  self.speed = self.maxSpeed
+  self.speed = 0 --self.maxSpeed
   
 end
 
@@ -83,7 +83,7 @@ end
 function Turtle:reload()
   Turtle.super.reload(self)
   -------------------------
-  self.speed = self.maxSpeed
+  self.speed = 0 --self.maxSpeed
   self.position.x = w / 2
   self.position.y = h - (self.screen.h / 1.75)
   
