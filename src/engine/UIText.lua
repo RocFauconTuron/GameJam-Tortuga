@@ -16,14 +16,13 @@ function UIText:new(x, y, text, align, size, color)
   self.align = align or "left"
   self.text = text or ""
   self.size = size or 12
-  self.font = love.graphics.newFont(self.size)
-  local c = color or {1, 1, 1, 1}
+  love.graphics.setNewFont("assets/fonts/SeaTurtle.ttf", self.size)
+  local c = color or {0, 0, 0, 1}
   self.color = {c[1], c[2], c[3], c[4]}
   self:fixPosition()
 end
 
 function UIText:draw()
-  love.graphics.setFont(self.font)
   love.graphics.setColor(self.color)
   love.graphics.print(self.text, self.fixed_position.x, self.fixed_position.y)
 end
@@ -43,15 +42,14 @@ function UIText:setColor(r, g, b, a)
 end
 
 function UIText:setSize(pt)
-  self.font = love.graphics.newFont(self.font, pt)
-  love.graphics.setFont(self.font)
+  love.graphics.setNewFont("assets/fonts/SeaTurtle.ttf", pt)
   self:fixPosition()
 end
 
 function UIText:fixPosition()
   
-  local w = self.font:getWidth(self.text) / 2
-  local h = self.font:getHeight(self.text) / 2
+  local w = love.graphics.getFont():getWidth(self.text) / 2
+  local h = love.graphics.getFont():getHeight(self.text) / 2
   
   if (self.align == "left") then
     self.fixed_position.x = self.position.x
