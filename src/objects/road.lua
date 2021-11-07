@@ -4,8 +4,10 @@ local Object = Object or require "lib/classic"
 
 -- Objects
 Camera = Camera or require "src/objects/camera"
+local Segment = Segment or require "src/objects/segment"
 
 -- Locals
+DATA = DATA or require "src/DATA"
 local w, h = love.graphics.getDimensions()
 
 -- Class
@@ -14,7 +16,7 @@ local Road = Object:extend()
 
 function Road:new()
   self.segments = {}
-  self.segmentLength = 100
+  self.segmentLength = DATA.road.segmentLenght
   self.roadWidth = 1200
   self.rumble_segments = 5
   
@@ -85,8 +87,10 @@ function Road:draw()
           local sc = cs.point.scale
           local xx = cs.point.screen.x + (sc * v[2] * self.roadWidth * w / 2)
           local yy = cs.point.screen.y - v[1]:getHeight() * s
+          local qy = v[1]:getHeight()
+          local qd = love.graphics.newQuad(0, 0, v[1]:getWidth(), qy, v[1]:getWidth(), v[1]:getHeight())
           love.graphics.setColor(1, 1, 1, 1)
-          love.graphics.draw(v[1], xx, yy, 0, s, s)
+          love.graphics.draw(v[1], qd, xx, yy, 0, s, s)
         end
         
       end
@@ -200,21 +204,13 @@ function Road:createSection(nSegments, curve, y)
 end
 
 function Road:createSegment(curve, y) 
-  
-  local road = {light = {r = 136/255, g = 136/255, b = 136/255, a = 255/255}, dark = {r = 102/255, g = 102/255, b = 102/255, a = 255/255}}
-  local grass = {light = {r = 66/255, g = 147/255, b = 82/255, a = 255/255}, dark = {r = 57/255, g = 125/255, b = 70/255, a = 255/255}}
-  local rumble = {light = {r = 184/255, g = 49/255, b = 46/255, a = 255/255}, dark = {r = 221/255, g = 221/255, b = 221/255, a = 255/255}}
-  local lane = {dark = {r = 1, g = 1, b = 1, a = 1}}
-  
-  local segment = {index = #self.segments + 1, point = {world = {x = 0, y = y, z = #self.segments * self.segmentLength}, screen = {x = 0, y = 0, w = 0}, scale = -1}, color = {}, curve = curve}
-  
-  if (math.floor(#self.segments/self.rumble_segments)%2 == 0) then
-    segment.color = {road = road.light, grass = grass.light, rumble = rumble.light}
+  table.insert(self.segments, Segment(#self.segments, #self.segments * self.segmentLength, curve, y))
+  if (#self.segments % 50 ~= 0) then
+    self.segments[#self.segments]:setColors(DATA.cB37700, DATA.c004D0D, DATA.c804000, DATA.cCC8800)
   else
-    segment.color = {road = road.dark, grass = grass.dark, rumble = rumble.dark, lane = lane.dark}
+    self.segments[#self.segments]:setColors()
   end
   
-  table.insert(self.segments, segment)
 end
 
 function Road:getSegment(pos)
