@@ -71,15 +71,26 @@ function Road:draw()
       
       clipBottomLine = currBottomLine
       
-      if (currSegment.props) then
-        for _,v in ipairs(currSegment.props) do
-          local sp = v[1]
-          local px = currSegment.point.screen.x + currSegment.point.scale * w / 2 - v[2]
-          local py = currSegment.point.screen.y - 5
-          local sc = sp:getHeight() * currSegment.point.screen.w
-          love.graphics.draw(sp, px, py, 0, sc, sc)
+      
+    end
+    
+    for i=Camera.visible_segments, 1, -1 do
+      
+      local ci = (baseIndex + i) % self.total_segments
+      local cs = self.segments[ci]
+      
+      if (cs.props) then
+        for _,v in ipairs(cs.props) do
+          local s = 1 - (i/ Camera.visible_segments) --Camera.z / cs.point.world.z
+          local sc = cs.point.scale
+          local xx = cs.point.screen.x + (sc * v[2] * self.roadWidth * w / 2)
+          local yy = cs.point.screen.y - v[1]:getHeight() * s
+          love.graphics.setColor(1, 1, 1, 1)
+          love.graphics.draw(v[1], xx, yy, 0, s, s)
         end
+        
       end
+      
     end
     
   end
@@ -153,14 +164,17 @@ function Road:createRoad()
     self:createSection(380, math.random(-200, 200) / 100, math.random(-2500, 2500) / 100)
   end
   
+  for i=50, #self.segments, 10 do
+    self:addProps(i, i, "assets/textures/arbusto-r.png", -2.5)
+    self:addProps(i, i, "assets/textures/arbusto-l.png", 2.5)
+    self:addProps(i, i, "assets/textures/roca.png", -3)
+    self:addProps(i, i, "assets/textures/roca.png", 3)
+  end
+    
+  self.segments[100].color.road = {r = 1, g = 1, b = 1, a = 1}
   
   --self:createSection(3797)
 
-  for i=500, #self.segments, 50 do
-    self:addProps(i, i, "assets/textures/roca.png", -1)
-    self:addProps(i, i, "assets/textures/roca.png", 1)
-  end
-  
 end
 
 function Road:addProps(firstSegment, lastSegment, prop, offset)
