@@ -31,9 +31,13 @@ function Deco:project(index, s, p)
   self.screen.y = s.point.screen.y - self.texture:getHeight() * self.screen.scale
   
   local dy = self.screen.y + (self.texture:getHeight() * self.screen.scale)
-  print(dy .. " " .. p)
   
   local qy = self.texture:getHeight()
+  
+  if ((dy - p) >= 0) then 
+    qy = qy * self.screen.scale
+  end  
+  
   self.texture_quad = love.graphics.newQuad(0, 0, self.texture:getWidth(), qy, self.texture:getWidth(), self.texture:getHeight())
 end
 
