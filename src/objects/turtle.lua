@@ -32,7 +32,7 @@ function Turtle:new(x, y, texture, speed, rotation, animations, frames, framerat
   self.position.x = w / 2
   self.position.y = h - self.screen.h / 2
   
-  self.segmentLength = DATA.road.segmentLenght
+  self.segmentLength = DATA.segment.lenght
   
   self.maxSpeed = (self.segmentLength) / (1/60)
   
