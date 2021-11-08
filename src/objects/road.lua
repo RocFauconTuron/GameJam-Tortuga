@@ -16,7 +16,7 @@ local Road = Object:extend()
 
 function Road:new()
 
-  -- Creamos la carretera
+  -- Creamos la carretera y añadimos la decoracción
   self:createRoad()
   
   -- Calculamos el tamaño total de la carretera
@@ -32,7 +32,7 @@ function Road:draw()
   local bottomClip = h
   
   -- Render de los segmentos
-  for i=2, Camera.visible_segments, 1 do
+  for i = 2, Camera.visible_segments, 1 do
     
     -- Recuperamos segmento a pintar
     local index = (self:getSegment(Camera.z).index + i) % #self.segments
@@ -49,30 +49,25 @@ function Road:draw()
     
     -- Asguraemos no pintar por debajo de uno antes de revasarlo y que 
     if (bottomLine < bottomClip) then
-      self.segments[index]:drawSegment(self.segments[math.min(index - 1, #self.segments - 1)])
+      self.segments[index]:draw(self.segments[math.min(index - 1, #self.segments - 1)])
       bottomClip = bottomLine
     end
     
   end
 
   -- Render de las decoraciónes
-  -- TODO
-  for i=Camera.visible_segments, 1, -1 do
+  for i = Camera.visible_segments, 1, -1 do
     
+    -- Recuperamos el segmetno con decos
     local index = (self:getSegment(Camera.z).index + i) % #self.segments
     
-    if (self.segments[index].props) then
-      for _,v in ipairs(self.segments[index].props) do
-        local s = 1 - (i/ Camera.visible_segments) --Camera.z / cs.point.world.z
-        local sc = self.segments[index].point.scale
-        local xx = self.segments[index].point.screen.x + (sc * v[2] * DATA.road.width * w / 2)
-        local yy = self.segments[index].point.screen.y - v[1]:getHeight() * s
-        local qy = v[1]:getHeight()
-        local qd = love.graphics.newQuad(0, 0, v[1]:getWidth(), qy, v[1]:getWidth(), v[1]:getHeight())
-        love.graphics.setColor(1, 1, 1, 1)
-        love.graphics.draw(v[1], qd, xx, yy, 0, s, s)
+    -- Solo tabajamos si hay decoración que pintar
+    if (self.segments[index].deco) then
+      for _,deco in ipairs(self.segments[index].deco) do
+        -- Proyectamos sobre le mundo teniendo de referencia el segment al que pertenecemos y pintamos
+        deco:project(i, self.segments[index])
+        deco:draw()
       end
-      
     end
     
   end
@@ -91,17 +86,16 @@ function Road:createRoad()
   
   -- Diseño de la carretera
   for i=0, 100, 1 do
-    self:createSection(38, math.random(-200, 200) / 100, math.random(-2500, 2500) / 100)
+    --self:createSection(38, math.random(-200, 200) / 100, math.random(-2500, 2500) / 100)
+    self:createSection(38, math.random(-200, 200) / 100, math.random(-5000, 5000) / 100)
   end
   
-  for i=50, #self.segments, 10 do
-    self:addProps(i, i, "assets/textures/arbusto-r.png", -2.5)
-    self:addProps(i, i, "assets/textures/arbusto-l.png", 2.5)
-    self:addProps(i, i, "assets/textures/roca.png", -3)
-    self:addProps(i, i, "assets/textures/roca.png", 3)
-  end
+  self:createDeco(100, 500, 10, "assets/textures/roca.png", 3)
+  self:createDeco(100, 500, 10, "assets/textures/roca.png", -3)
+  self:createDeco(105, 505, 10, "assets/textures/arbusto-r.png", 2)
+  self:createDeco(105, 505, 10, "assets/textures/arbusto-l.png", -2)
     
-  self.segments[1].color.road = {r = 1, g = 1, b = 1, a = 1}
+  self.segments[10].color.road = {r = 1, g = 1, b = 1, a = 1}
   
   --self:createSection(3797)
 
@@ -129,18 +123,10 @@ end
 -------------------------------
 -- /// GESTIÓN DE LOS DECORADOS
 -------------------------------
-function Road:addProps(firstSegment, lastSegment, prop, offset)
-  if ((firstSegment >= 1) and (lastSegment <= #self.segments)) then
-    for i=firstSegment, lastSegment, 1 do
-      self:addProp(self.segments[i], prop, offset)
-    end
+function Road:createDeco(firstS, lastS, increment, path, offset)
+  for i = math.max(1, firstS), math.min(lastS, #self.segments), increment do
+    self.segments[i]:addDeco(path, offset)
   end
-end
-
-function Road:addProp(segment, prop, offset)
-  local t = {love.graphics.newImage(prop), offset}
-  if (segment.props == nil) then segment.props = {} end
-  table.insert(segment.props, t) 
 end
 
 return Road

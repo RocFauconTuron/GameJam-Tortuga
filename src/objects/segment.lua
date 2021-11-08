@@ -5,6 +5,7 @@ local Object = Object or require "lib/classic"
 -- Locals
 DATA = DATA or require "src/DATA"
 Camera = Camera or require "src/objects/camera"
+local Deco = Deco or require "src/objects/deco"
 local w, h = love.graphics.getDimensions()
 
 -- Class
@@ -24,7 +25,7 @@ function Segment:new(index, z, curve, y)
   
 end
 
-function Segment:drawSegment(prevSegment)
+function Segment:draw(prevSegment)
   
   local x1 = prevSegment.point.screen.x
   local y1 = prevSegment.point.screen.y
@@ -93,6 +94,11 @@ end
 
 function Segment:altitude()
   return self.point.world.y
+end
+
+function Segment:addDeco(path, offset)
+  if (self.deco == nil) then self.deco = {} end
+  table.insert(self.deco, Deco(path, offset))
 end
 
 function Segment:setColors(road, grass, rumble, lane)
