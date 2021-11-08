@@ -2,7 +2,7 @@
 -- Libs
 local Object = Object or require "lib/classic"
 
--- 
+-- Locals
 DATA = DATA or require "src/DATA"
 Camera = Camera or require "src/objects/camera"
 local w, h = love.graphics.getDimensions()
@@ -21,6 +21,7 @@ function Segment:new(index, z, curve, y)
   self.curve = curve or 0
   self.lanes = DATA.segment.lanes
   self:setColors()
+  
 end
 
 function Segment:drawSegment(prevSegment)
@@ -33,17 +34,20 @@ function Segment:drawSegment(prevSegment)
   local y2 = self.point.screen.y
   local w2 = self.point.screen.w
 
+  -- Pintado del cesped/fondo de la carretera
   love.graphics.setColor(self.color.grass.r, self.color.grass.g, self.color.grass.b, self.color.grass.a)
   love.graphics.rectangle("fill", 0, y2, w, y1 - y2)
-  
+
+  -- Pintado de la carretera
   self:drawPolygon({x1 - w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2}, self.color.road)
   
+  -- Pintado del limite de la carretera
   local rumble_w1 = w1 / 5
   local rumble_w2 = w2 / 5
-  
   self:drawPolygon({x1 - w1 - rumble_w1, y1, x1 - w1, y1, x2 - w2, y2, x2 - w2 - rumble_w2, y2}, self.color.rumble)
   self:drawPolygon({x1 + w1 + rumble_w1, y1, x1 + w1, y1, x2 + w2, y2, x2 + w2 + rumble_w2, y2}, self.color.rumble)
   
+  -- Pintado de las lineas en la carretera
   if (self.color.lane) then
     local line_w1 = (w1 / 20) / 2
     local line_w2 = (w2 / 20) / 2
@@ -54,14 +58,11 @@ function Segment:drawSegment(prevSegment)
     local lane_x1 = x1 - w1
     local lane_x2 = x2 - w2
     
-    for i=2, self.lanes, 1 do
+    for i = 2, self.lanes, 1 do
       lane_x1 = lane_x1 + lane_w1
       lane_x2 = lane_x2 + lane_w2
-      
       self:drawPolygon({lane_x1 - line_w1, y1, lane_x1 + line_w1, y1, lane_x2 + line_w2, y2, lane_x2 - line_w2, y2}, self.color.lane)
-      
     end
-    
   end
 end
 
