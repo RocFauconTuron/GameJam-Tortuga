@@ -29,6 +29,10 @@ function Deco:project(index, s, p)
   local sc = s.point.scale
   self.screen.x = s.point.screen.x + (sc * self.offset * DATA.road.width * w / 2)
   self.screen.y = s.point.screen.y - self.texture:getHeight() * self.screen.scale
+  
+  local dy = self.screen.y + (self.texture:getHeight() * self.screen.scale)
+  print(dy .. " " .. p)
+  
   local qy = self.texture:getHeight()
   self.texture_quad = love.graphics.newQuad(0, 0, self.texture:getWidth(), qy, self.texture:getWidth(), self.texture:getHeight())
 end
