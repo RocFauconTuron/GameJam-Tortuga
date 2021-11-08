@@ -21,6 +21,7 @@ function Segment:new(index, z, curve, y)
   self.point.scale = -1 
   self.curve = curve or 0
   self.lanes = DATA.segment.lanes
+  self.clip = 0
   self:setColors()
   
 end
@@ -65,6 +66,7 @@ function Segment:draw(prevSegment)
       self:drawPolygon({lane_x1 - line_w1, y1, lane_x1 + line_w1, y1, lane_x2 + line_w2, y2, lane_x2 - line_w2, y2}, self.color.lane)
     end
   end
+  
 end
 
 function Segment:drawPolygon(vertexs, color)

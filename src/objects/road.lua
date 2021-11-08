@@ -37,6 +37,9 @@ function Road:draw()
     -- Recuperamos segmento a pintar
     local index = (self:getSegment(Camera.z).index + i) % #self.segments
     
+    -- Guardamos el bottomClip
+    self.segments[index].clip = bottomClip
+    
     -- Lo proyectamos en el mundo
     self.segments[index]:project(x, dx)
     
@@ -65,7 +68,7 @@ function Road:draw()
     if (self.segments[index].deco) then
       for _,deco in ipairs(self.segments[index].deco) do
         -- Proyectamos sobre le mundo teniendo de referencia el segment al que pertenecemos y pintamos
-        deco:project(i, self.segments[index], 0)
+        deco:project(i, self.segments[index], self.segments[index].clip)
         deco:draw()
       end
     end
@@ -92,8 +95,6 @@ function Road:createRoad()
   
   self:createDeco(100, 200, 50, "assets/textures/roca.png", 3)
   self:createDeco(100, 200, 50, "assets/textures/roca.png", -3)
-    
-  self.segments[10].color.road = {r = 1, g = 1, b = 1, a = 1}
   
   --self:createSection(3797)
 
