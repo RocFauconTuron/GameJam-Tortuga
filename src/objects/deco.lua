@@ -12,13 +12,11 @@ local Deco = Object:extend()
 ------------------------
 
 function Deco:new(path, offset)
-  self.texture = love.graphics.newImage(path or "assets/texture/pixel.png")
-  self.offset = offset or 0
   
   self.screen = {x = 0, y = 0, scale = 0}
   
-  self.texture_quad = nil
-  
+  self.offset = offset or 0
+  self.texture = love.graphics.newImage(path or "assets/texture/pixel.png")
 end
 
 function Deco:draw()
@@ -26,12 +24,13 @@ function Deco:draw()
   love.graphics.draw(self.texture, self.texture_quad, self.screen.x, self.screen.y, 0, self.screen.scale, self.screen.scale)
 end
 
-function Deco:project(index, segment)
+function Deco:project(index, s, p)
   self.screen.scale = 1 - (index / Camera.visible_segments)
-  local sc = segment.point.scale
-  self.screen.x = segment.point.screen.x + (sc * self.offset * DATA.road.width * w / 2)
-  self.screen.y = segment.point.screen.y - self.texture:getHeight() * self.screen.scale
-  self.texture_quad = love.graphics.newQuad(0, 0, self.texture:getWidth(), self.texture:getHeight(), self.texture:getWidth(), self.texture:getHeight())
+  local sc = s.point.scale
+  self.screen.x = s.point.screen.x + (sc * self.offset * DATA.road.width * w / 2)
+  self.screen.y = s.point.screen.y - self.texture:getHeight() * self.screen.scale
+  local qy = self.texture:getHeight() -- TODO
+  self.texture_quad = love.graphics.newQuad(0, 0, self.texture:getWidth(), qy, self.texture:getWidth(), self.texture:getHeight())
 end
 
 return Deco
