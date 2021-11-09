@@ -53,123 +53,116 @@ function GameIntro:new()
 end
 
 function GameIntro:update(dt)
-    GameIntro.super.update(self, dt)
-    print(timer.time)
-    if controllerTitol then
-      if 0 < timer.time and timer.time < fadein then 
-        alphaTitol = timer.time / fadein  
-      end
-      if fadein < timer.time and timer.time < display then 
-        alphaTitol = 1  
-      end
-      if display < timer.time and timer.time < fadeout then 
-        alphaTitol = 1 - ((timer.time - display) / (fadeout - display))
-      end
-      if timer.time > fadeout then 
-        controllerTitol = false
-        controllerIntro1 = true
-        timer.time = 0
-      end
-
-     elseif controllerIntro1 then
-      if 0 < timer.time and timer.time < fadein then 
-        alphaIntro1 = timer.time / fadein  
-      end
-      if fadein < timer.time and timer.time < display then 
-        alphaIntro1 = 1  
-      end
-      if display < timer.time and timer.time < fadeout then 
-        alphaIntro1 = 1 - ((timer.time - display) / (fadeout - display))
-      end
-      if timer.time > fadeout then 
-        controllerIntro1 = false
-        controllerIntro2 = true
-        timer.time = 0
-      end
-
-    elseif controllerIntro2 then
-      if 0 < timer.time and timer.time < fadein then 
-        alphaIntro2 = timer.time / fadein  
-      end
-      if fadein < timer.time and timer.time < display then 
-        alphaIntro2 = 1  
-      end
-      if display < timer.time and timer.time < fadeout then 
-        alphaIntro2 = 1 - ((timer.time - display) / (fadeout - display))
-      end
-      if timer.time > fadeout then 
-        controllerIntro2 = false
-        controllerIntro3 = true
-        timer.time = 0
-      end
-
-    elseif controllerIntro3 then
-      if 0 < timer.time and timer.time < fadein then 
-        alphaIntro3 = timer.time / fadein  
-      end
-      if fadein < timer.time and timer.time < display then 
-        alphaIntro3 = 1  
-      end
-      if display < timer.time and timer.time < fadeout then 
-        alphaIntro3 = 1 - ((timer.time - display) / (fadeout - display))
-      end
-      if timer.time > fadeout then 
-        controllerIntro3 = false
-        controllerIntro4 = true
-        timer.time = 0
-      end
-
-      
-    elseif controllerIntro4 then
-      if 0 < timer.time and timer.time < fadein then 
-        alphaIntro4 = timer.time / fadein  
-      end
-      if fadein < timer.time and timer.time < display then 
-        alphaIntro4 = 1  
-        controllerIntro4 = false
-        controllerBucle = true
-        timer.time = 0
-      end
-
-    elseif controllerBucle then
-      if 0 < timer.time and timer.time < 0.3 then 
-        alphaIntro4 = 1
-        alphaIntro5 = 0
-      end
-      if 0.3 < timer.time and timer.time < 0.6 then 
-        alphaIntro4 = 0
-        alphaIntro5 = 1
-      end
-      if timer.time > 0.6 then
-        timer.time = 0
-      end
-    end
+  GameIntro.super.update(self, dt)
   --------------------------------
+  if controllerTitol then
+    if 0 < timer.time and timer.time < fadein then 
+      alphaTitol = timer.time / fadein  
+    end
+    if fadein < timer.time and timer.time < display then 
+      alphaTitol = 1  
+    end
+    if display < timer.time and timer.time < fadeout then 
+      alphaTitol = 1 - ((timer.time - display) / (fadeout - display))
+    end
+    if timer.time > fadeout then 
+      controllerTitol = false
+      controllerIntro1 = true
+      timer.time = 0
+    end
+   elseif controllerIntro1 then
+    if 0 < timer.time and timer.time < fadein then 
+      alphaIntro1 = timer.time / fadein  
+    end
+    if fadein < timer.time and timer.time < display then 
+      alphaIntro1 = 1  
+    end
+    if display < timer.time and timer.time < fadeout then 
+      alphaIntro1 = 1 - ((timer.time - display) / (fadeout - display))
+    end
+    if timer.time > fadeout then 
+      controllerIntro1 = false
+      controllerIntro2 = true
+      timer.time = 0
+    end
+  elseif controllerIntro2 then
+    if 0 < timer.time and timer.time < fadein then 
+      alphaIntro2 = timer.time / fadein  
+    end
+    if fadein < timer.time and timer.time < display then 
+      alphaIntro2 = 1  
+    end
+    if display < timer.time and timer.time < fadeout then 
+      alphaIntro2 = 1 - ((timer.time - display) / (fadeout - display))
+    end
+    if timer.time > fadeout then 
+      controllerIntro2 = false
+      controllerIntro3 = true
+      timer.time = 0
+    end
+  elseif controllerIntro3 then
+    if 0 < timer.time and timer.time < fadein then 
+      alphaIntro3 = timer.time / fadein  
+    end
+    if fadein < timer.time and timer.time < display then 
+      alphaIntro3 = 1  
+    end
+    if display < timer.time and timer.time < fadeout then 
+      alphaIntro3 = 1 - ((timer.time - display) / (fadeout - display))
+    end
+    if timer.time > fadeout then 
+      controllerIntro3 = false
+      controllerIntro4 = true
+      timer.time = 0
+    end
+  elseif controllerIntro4 then
+    if 0 < timer.time and timer.time < fadein then 
+      alphaIntro4 = timer.time / fadein  
+    end
+    if fadein < timer.time and timer.time < display then 
+      alphaIntro4 = 1  
+      controllerIntro4 = false
+      controllerBucle = true
+      timer.time = 0
+    end
+  elseif controllerBucle then
+    if 0 < timer.time and timer.time < 0.3 then 
+      alphaIntro4 = 1
+      alphaIntro5 = 0
+    end
+    if 0.3 < timer.time and timer.time < 0.6 then 
+      alphaIntro4 = 0
+      alphaIntro5 = 1
+    end
+    if timer.time > 0.6 then
+      timer.time = 0
+    end
+  end
 end
 
 function GameIntro:draw()
-    
-    self.entities[6].color = {r = 1, g = 1, b = 1, a = alphaIntro1}
-    self.entities[5].color = {r = 1, g = 1, b = 1, a = alphaIntro2}
-    self.entities[4].color = {r = 1, g = 1, b = 1, a = alphaIntro3}
-    self.entities[3].color = {r = 1, g = 1, b = 1, a = alphaIntro4}
-    self.entities[2].color = {r = 1, g = 1, b = 1, a = alphaIntro5}
-    self.entities[7].color = {r = 1, g = 1, b = 1, a = alphaTitol}
-    self.entities[8].color = {r = 1, g = 1, b = 1, a = alphaTitol}
-    self.entities[9].color = {r = 1, g = 1, b = 1, a = alphaTitol}
-GameIntro.super.draw(self)
+  self.entities[6].color = {r = 1, g = 1, b = 1, a = alphaIntro1}
+  self.entities[5].color = {r = 1, g = 1, b = 1, a = alphaIntro2}
+  self.entities[4].color = {r = 1, g = 1, b = 1, a = alphaIntro3}
+  self.entities[3].color = {r = 1, g = 1, b = 1, a = alphaIntro4}
+  self.entities[2].color = {r = 1, g = 1, b = 1, a = alphaIntro5}
+  self.entities[7].color = {r = 1, g = 1, b = 1, a = alphaTitol}
+  self.entities[8].color = {r = 1, g = 1, b = 1, a = alphaTitol}
+  self.entities[9].color = {r = 1, g = 1, b = 1, a = alphaTitol}
+  --------------------------
+  GameIntro.super.draw(self)
   --------------------------
 end
 
 function GameIntro:reload()
-    GameIntro.super.reload(self)
+  GameIntro.super.reload(self)
   ----------------------------
 end
 
 function GameIntro:keyPressed(key)
-    GameIntro.super.keyPressed(self, key)
+  GameIntro.super.keyPressed(self, key)
   -------------------------------------
-  if (key == "return") then self:nextScene() end
+  if (key == "space") then self:nextScene() end
 end
 
 return GameIntro
