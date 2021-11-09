@@ -7,12 +7,12 @@ local Entity = Entity or require "src/engine/Entity"
 -- Objects
 Camera = Camera or require "src/objects/camera"
 local Road = Road or require "src/objects/Road"
-local Turtle = Turtle or require "src/objects/Turtle"
+local Player = Player or require "src/objects/Player"
 
 -- Locals
 local background_id = -1
 local turtle_id = -1
-local road_id = -1
+local player_id = -1
 
 local w, h = love.graphics.getDimensions()
 
@@ -28,21 +28,22 @@ function GamePlay:new()
   
   background_id = self:addEntity(Entity(w / 2, 160, "assets/textures/scene/play/background.png"))
   road_id = self:addEntity(Road())
-  turtle_id = self:addEntity(Turtle(0, 0, "assets/textures/turtle.png", 0, 0, 1, 1, 1))
+  player_id = self:addEntity(Player(0, 0, "assets/textures/turtle.png", 0, 0, 1, 1, 1))
   
 end
 
 function GamePlay:update(dt)
   GamePlay.super.update(self, dt)
   --------------------------------
-  Camera:update(self:getEntity(turtle_id), dt)
   
   local bg = self:getEntity(background_id)
-  local tr = self:getEntity(turtle_id)
+  local pr = self:getEntity(player_id)
   local rd = self:getEntity(road_id)
   
-  tr:curveShift(rd:getSegment(Camera.z).curve)
-  tr:upDownTheHill(rd:getSegment(Camera.z).point.world.y)
+  Camera:update(pr, dt)
+  
+  pr:curveShift(rd:getSegment(Camera.z).curve)
+  pr:upDownTheHill(rd:getSegment(Camera.z).point.world.y)
   
   bg.position.x = bg.position.x + rd:getSegment(Camera.z).curve * (DATA.background.speed)
   
