@@ -74,7 +74,6 @@ function Road:draw()
     end
     
   end
-  
 
 end
 

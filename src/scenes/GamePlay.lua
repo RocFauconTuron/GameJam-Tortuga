@@ -46,7 +46,7 @@ function GamePlay:update(dt)
   
   bg.position.x = bg.position.x + rd:getSegment(Camera.z).curve * (DATA.background.speed)
   
-  -- Condición de pasar a Game Over, 1m de gameplay a máxima velocidad
+  -- Condición de pasar a Game Over, 1m de gameplay a máxima 
   if (Camera.z > 359750) then self:nextScene() end
   
 end
