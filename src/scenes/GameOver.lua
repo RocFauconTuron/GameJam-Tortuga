@@ -16,7 +16,7 @@ local GameOver = Scene:extend()
 function GameOver:new()
   GameOver.super.new(self)
   ------------------------
-  self:addEntity(Entity(w / 2, h / 2, "assets/textures/background.png"))
+  self:addEntity(Entity(w / 2, h / 2, "assets/textures/scene/play/background.png"))
   self:addEntity(UIText(w / 2, h / 2, "GAME OVER", "center", 72))
 end
 

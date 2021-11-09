@@ -26,7 +26,7 @@ function GamePlay:new()
   
   Camera:new()
   
-  background_id = self:addEntity(Entity(w / 2, 160, "assets/textures/background.png"))
+  background_id = self:addEntity(Entity(w / 2, 160, "assets/textures/scene/play/background.png"))
   road_id = self:addEntity(Road())
   turtle_id = self:addEntity(Turtle(0, 0, "assets/textures/turtle.png", 0, 0, 1, 1, 1))
   

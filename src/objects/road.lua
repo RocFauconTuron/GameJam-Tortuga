@@ -93,7 +93,7 @@ function Road:createRoad()
     self:createSection(38, math.random(-200, 200) / 100, math.random(-5000, 5000) / 100)
   end
   
-  self:createDeco(100, 500, 10, "assets/textures/roca.png", -3)
+  self:createDeco(100, 500, 10, "assets/textures/deco/palm/left-2.png", -3)
   
   --self:createSection(3797)
 
