@@ -45,7 +45,7 @@ function GamePlay:update(dt)
   pr:curveShift(rd:getSegment(Camera.z).curve)
   pr:upDownTheHill(rd:getSegment(Camera.z).point.world.y)
   
-  bg.position.x = bg.position.x + rd:getSegment(Camera.z).curve * (DATA.background.speed)
+  bg.position.x = bg.position.x + rd:getSegment(Camera.z).curve * (pr.speed / DATA.background.speed)
   
   -- Condición de pasar a Game Over, 1m de gameplay a máxima 
   if (Camera.z > 359750) then self:nextScene() end

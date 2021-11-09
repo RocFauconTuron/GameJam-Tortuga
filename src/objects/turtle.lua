@@ -16,6 +16,7 @@ local Turtle = AnimatedActor:extend()
 function Turtle:new(x, y, texture, speed, rotation, animations, frames, framerate)
   Turtle.super.new(self, x, y, texture, speed, rotation, animations, frames, framerate)
   -------------------------------------------------------------------------------------
+  self.line = 0
 end
 
 function Turtle:update(dt)

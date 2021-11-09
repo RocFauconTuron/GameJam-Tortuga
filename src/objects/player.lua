@@ -69,6 +69,7 @@ function Player:update(dt)
   end
   
   self.speed = math.min(self.maxSpeed, (math.max(0, self.speed)))
+  self.speed = self.maxSpeed
 end
 
 function Player:draw()

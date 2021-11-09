@@ -88,14 +88,22 @@ function Road:createRoad()
   self:addSegment()
   
   -- Diseño de la carretera
-  for i=0, 100, 1 do
-    --self:createSection(38, math.random(-200, 200) / 100, math.random(-2500, 2500) / 100)
-    self:createSection(38, math.random(-200, 200) / 100, math.random(-5000, 5000) / 100)
-  end
+  self:createSection(200,-1, 20)
+  self:createSection(200, 1, 10)
+  self:createSection(200, 0, 0)
+  self:createSection(200, 1, -10)
+  self:createSection(200, 0, -20)
+  self:createSection(200, 1, -10)
+  self:createSection(200,-1, 0)
+  self:createSection(200,-2, 10)
+  self:createSection(200,-2, 20)
+  self:createSection(200,-1, 10)
+  self:createSection(200, 0, 0)
+  self:createSection(200, 0, -10)
+  self:createSection(200, 1, -20)
   
-  self:createDeco(100, 500, 10, "assets/textures/deco/palm/left-2.png", -3)
-  
-  --self:createSection(3797)
+  self:createDeco(0, 2600, 25, "assets/textures/deco/palm/left-2.png", -3)
+  self:createDeco(25, 2600, 25, "assets/textures/deco/palm/right-2.png", 2)
 
 end
 
