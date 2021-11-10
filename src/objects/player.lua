@@ -11,13 +11,15 @@ local w, h = love.graphics.getDimensions()
 local Player = Turtle:extend()
 ------------------------------
 
-function Player:new(x, y, texture, speed, rotation, animations, frames, framerate)
-  Player.super.new(self, x, y, texture, speed, rotation, animations, frames, framerate)
-  -------------------------------------------------------------------------------------
+function Player:new()
+  Player.super.new(self, 0, 0, "assets/textures/player.png", 0, 0, 3, 3, 0.1, true)
+  -------------------------------------------------------------------------------
   self.left = false
   self.right = false
   self.up = false
   self.down = false
+  
+  self:setAnimation(3)
   
   self.z = 0
   self.w = (self.width / 1000) * 2
@@ -46,15 +48,18 @@ function Player:update(dt)
   
   if ((self.left) and (self.position.x > w / 3)) then 
     self.position.x = self.position.x - 1 * (self.speed/self.maxSpeed*2) - extra
-  end
-  if ((self.right) and (self.position.x < w / 1.5)) then 
+    if (self.animation ~= 2) then self:setAnimation(2) end
+  elseif ((self.right) and (self.position.x < w / 1.5)) then 
     self.position.x = self.position.x + 1 * (self.speed/self.maxSpeed*2) + extra
+    if (self.animation ~= 1) then self:setAnimation(1) end
+  else
+    if (self.animation ~= 3) then self:setAnimation(3) end
   end
   
   self.screen.x = (self.position.x - (w / 2)) / 100
   
-  if (self.up) then self.speed = self.speed + (self.maxSpeed / 50) end
-  if (self.down) then self.speed = self.speed - (self.maxSpeed / 25) end
+  if (self.up) then self.speed = self.speed + (self.maxSpeed / 125) end
+  if (self.down) then self.speed = self.speed - (self.maxSpeed / 50) end
   
   self.speed = self.speed - (self.maxSpeed / 200) 
   
@@ -69,7 +74,13 @@ function Player:update(dt)
   end
   
   self.speed = math.min(self.maxSpeed, (math.max(0, self.speed)))
-  self.speed = self.maxSpeed
+  
+  if ((self.speed == 0) and ((self.left) or (self.right))) then
+    self.frame_rate = 0.1
+  else
+    self.frame_rate = 1.1 - (self.speed / self.maxSpeed)
+  end
+  
 end
 
 function Player:draw()
@@ -90,6 +101,14 @@ function Player:reload()
   
   self.screen.w = self.width
   self.screen.h = self.height
+  
+  self:setAnimation(3)
+  
+  self.left = false
+  self.right = false
+  self.up = false
+  self.down = false
+  
 end
 
 function Player:keyPressed(key)
@@ -103,7 +122,7 @@ end
 
 function Player:keyReleased(key)
   Player.super.keyReleased(self, key)
-  ----------------------------------
+  -----------------------------------
   if (key == "a") then self.left = false end
   if (key == "d") then self.right = false end
   if (key == "w") then self.up = false end
