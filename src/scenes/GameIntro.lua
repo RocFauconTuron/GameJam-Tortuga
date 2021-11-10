@@ -157,6 +157,12 @@ end
 function GameIntro:reload()
   GameIntro.super.reload(self)
   ----------------------------
+  self.entities[7].scale.x = 0.35
+  self.entities[7].scale.y = 0.35
+  self.entities[8].scale.x = 0.5
+  self.entities[8].scale.y = 0.5
+  self.entities[9].scale.x = 0.5
+  self.entities[9].scale.y = 0.5
 end
 
 function GameIntro:keyPressed(key)
