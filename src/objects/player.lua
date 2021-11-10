@@ -12,11 +12,7 @@ local Player = Turtle:extend()
 ------------------------------
 
 function Player:new()
-<<<<<<< HEAD
   Player.super.new(self, 0, 0, "assets/textures/player.png", 0, 0, 3, 4, 0.1, true)
-=======
-  Player.super.new(self, 0, 0, "assets/textures/player.png", 0, 0, 3, 3, 0.1, true)
->>>>>>> 0b343bf485e7b75c04bd318b07532a601dfc1ae1
   -------------------------------------------------------------------------------
   self.left = false
   self.right = false
@@ -50,17 +46,10 @@ function Player:update(dt)
   local extra = 0
   if (self.speed <= 1) then extra = 1 end
   
-<<<<<<< HEAD
   if ((self.left) and (self.position.x > (w * 0.3))) then 
     self.position.x = self.position.x - 1 * (self.speed/self.maxSpeed*2) - extra
     if (self.animation ~= 2) then self:setAnimation(2) end
   elseif ((self.right) and (self.position.x < w - (w * 0.3))) then 
-=======
-  if ((self.left) and (self.position.x > w / 3)) then 
-    self.position.x = self.position.x - 1 * (self.speed/self.maxSpeed*2) - extra
-    if (self.animation ~= 2) then self:setAnimation(2) end
-  elseif ((self.right) and (self.position.x < w / 1.5)) then 
->>>>>>> 0b343bf485e7b75c04bd318b07532a601dfc1ae1
     self.position.x = self.position.x + 1 * (self.speed/self.maxSpeed*2) + extra
     if (self.animation ~= 1) then self:setAnimation(1) end
   else
@@ -75,20 +64,12 @@ function Player:update(dt)
   self.speed = self.speed - (self.maxSpeed / 200) 
   
   -- Limite oc n el mapa dcho
-<<<<<<< HEAD
   if (self.position.x > w - (w * 0.3)) then
-=======
-  if (self.position.x > w / 1.65) then
->>>>>>> 0b343bf485e7b75c04bd318b07532a601dfc1ae1
     self.speed = self.speed - (self.maxSpeed / 55)
   end
   
   -- limite ocn el mapa izq
-<<<<<<< HEAD
   if (self.position.x < (w * 0.3)) then
-=======
-  if (self.position.x < w / 2.55) then
->>>>>>> 0b343bf485e7b75c04bd318b07532a601dfc1ae1
     self.speed = self.speed - (self.maxSpeed / 55)
   end
   
