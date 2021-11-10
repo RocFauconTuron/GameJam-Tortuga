@@ -11,9 +11,9 @@ DATA.c804000 = {r = norm(128), g = norm(64),  b = norm(0),   a = 1}
 DATA.cCC8800 = {r = norm(204), g = norm(136), b = norm(0),   a = 1}
 DATA.c004D0D = {r = norm(0),   g = norm(77),  b = norm(13),  a = 1}
 
-DATA.road = {width = 1200}
-DATA.background = {speed = 3}
-DATA.segment = {lenght = 150, lanes = 6}
+DATA.road = {width = 2000}
+DATA.background = {speed = 5000}
+DATA.segment = {lenght = 150, lanes = 7}
 DATA.camera = {}
 
 return DATA
