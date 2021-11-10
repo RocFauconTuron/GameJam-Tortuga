@@ -28,7 +28,7 @@ function GamePlay:new()
   
   background_id = self:addEntity(Entity(w / 2, 160, "assets/textures/scene/play/background.png"))
   road_id = self:addEntity(Road())
-  player_id = self:addEntity(Player(0, 0, "assets/textures/turtle.png", 0, 0, 1, 1, 1))
+  player_id = self:addEntity(Player())
   
 end
 
