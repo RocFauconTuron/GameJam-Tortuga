@@ -84,6 +84,9 @@ function Player:update(dt)
 end
 
 function Player:draw()
+  love.graphics.setColor(0, 0, 0, 0.5)
+  love.graphics.circle("fill", self.position.x - 6, self.position.y + 15, 50)
+  -----------------------
   Player.super.draw(self)
   -----------------------
 end
