@@ -26,7 +26,7 @@ function GamePlay:new()
   
   Camera:new()
   
-  background_id = self:addEntity(Entity(w / 2, 160, "assets/textures/scene/play/background.png"))
+  background_id = self:addEntity(Entity(w / 2, 277, "assets/textures/scene/play/background.png"))
   road_id = self:addEntity(Road())
   player_id = self:addEntity(Player())
   
@@ -47,8 +47,8 @@ function GamePlay:update(dt)
   
   bg.position.x = bg.position.x + rd:getSegment(Camera.z).curve * (pr.speed / DATA.background.speed)
   
-  -- Condición de pasar a Game Over, 1m de gameplay a máxima 
-  if (Camera.z > 359750) then self:nextScene() end
+  -- Condición de pasar a Game Over, 43s de gameplay a máxima 
+  if (Camera.z > 390000) then self:nextScene() end
   
 end
 
