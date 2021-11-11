@@ -181,30 +181,28 @@ function Road:createRoad()
   -- Decoración
   -- Bosque 
   -- 100%
-  self:createDeco(0, 2600, 100, "assets/textures/deco/rocks/left-rock1.png", -1.8)
-  self:createDeco(5, 2600, 100, "assets/textures/deco/rocks/right-rock1.png", 0.8)
+  self:createDeco(1, 195, 25, "trees/arbol1.png", -2)
+  self:createDeco(1, 195, 25, "trees/arbol3.png", 2)
   --- 80%
-  self:createDeco(0, 0, 5, "", -2)
+  self:createDeco(196, 390, 25, "trees/arbol3.png", -2)
   --- 60%
-  self:createDeco(0, 0, 5, "", -2)
+  self:createDeco(391, 650, 25, "rocks/left-rock1.png", -2)
   -- Planes 
   -- 50%
-  self:createDeco(0, 0, 5, "", -2)
+  self:createDeco(651, 845, 25, "trees/arbol3.png", -2)
   --- 80%
-  self:createDeco(0, 0, 5, "", -2)
+  self:createDeco(846, 1625, 25, "rocks/right-rock1.png", -2)
   -- 40%
-  self:createDeco(0, 0, 5, "", -2)
+  self:createDeco(1626, 1950, 25, "palm/left-1.png", -2)
   -- Beach
   -- 10%
-  self:createDeco(0, 0, 5, "", -2)
+  self:createDeco(1951, 2080, 25, "palm/left-3.png", -2)
   -- 70%
-  self:createDeco(0, 0, 5, "", -2)
+  self:createDeco(2081, 2405, 25, "beach/left-umbrella1.png", -2)
   -- 100%
-  self:createDeco(0, 0, 5, "", -2)
+  self:createDeco(2406, 2800, 25, "beach/left-umbrella3.png", -2)
   
-  -- LIMITE
-  self:createDeco(0, 0, 5, "", -2)
-  
+  -- COCHES
   for i = 200000, 0, -10000 do
     self:addCar(i)
   end
@@ -235,7 +233,7 @@ end
 -------------------------------
 function Road:createDeco(firstS, lastS, increment, path, offset)
   for i = math.max(1, firstS), math.min(lastS, #self.segments), increment do
-    self.segments[i]:addDeco(path, offset)
+    self.segments[i]:addDeco("assets/textures/deco/" .. path, offset)
   end
 end
 
