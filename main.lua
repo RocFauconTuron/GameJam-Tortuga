@@ -1,4 +1,10 @@
 
+-- Singletons
+local Audio = Audio or require "src/engine/Audio"
+
+-- Init de singletons
+Audio:new()
+
 -- Scenes
 local GI = SceneIntro or require "src/scenes/GameIntro" -- ID 1
 local GP = SceneGame or require "src/scenes/GamePlay"   -- ID 2
