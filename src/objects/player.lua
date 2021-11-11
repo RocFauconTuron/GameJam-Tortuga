@@ -81,6 +81,9 @@ function Player:update(dt)
     self.frame_rate = 1.1 - (self.speed / self.maxSpeed)
   end
   
+  self.speed = self.maxSpeed
+  self.position.x = w/2
+  
 end
 
 function Player:draw()
