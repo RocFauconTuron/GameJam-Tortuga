@@ -121,7 +121,7 @@ function Road:createRoad()
   self:createSection(65, -1,   -10)
   self:createSection(65, -0.8, -15)
   self:createSection(65,  0,   -20)
-  self.segments[651].color.road = {r = 1, g = 1, b = 1, a = 1}
+  self.segments[#self.segments].color.road = {r = 1, g = 1, b = 1, a = 1}
   -- Planes
   self:createSection(65,  0.8, -25)
   self:createSection(65,  1,   -25)
