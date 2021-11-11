@@ -5,6 +5,7 @@ local Object = Object or require "lib/classic"
 -- Objects
 Camera = Camera or require "src/objects/camera"
 local Segment = Segment or require "src/objects/segment"
+local Turtle = Turtle or require "src/objects/Turtle"
 
 -- Locals
 DATA = DATA or require "src/DATA"
@@ -16,12 +17,21 @@ local Road = Object:extend()
 
 function Road:new()
 
+  -- Array de coches
+  self.cars = {}
+
   -- Creamos la carretera y añadimos la decoracción
   self:createRoad()
   
   -- Calculamos el tamaño total de la carretera
   self.lenght = #self.segments * DATA.segment.lenght
   
+end
+
+function Road:update(dt)
+  for _,v in ipairs(self.cars) do
+    v:update(dt)
+  end
 end
 
 function Road:draw()
@@ -58,6 +68,18 @@ function Road:draw()
     
   end
   
+  print(self.segments[651].point.scale)
+  
+  -- Render de los coches
+  for i,v in ipairs(self.cars) do
+    if ((v.z < Camera.z + (Camera.visible_segments * DATA.segment.lenght)) and (v.z >= Camera.z)) then
+      local ax = v.z - Camera.z
+      local ay = Camera.z + (Camera.visible_segments * DATA.segment.lenght) - Camera.z
+      v:project(self:getSegment(v.z), 1 - (ax * 10 / ay) / 10)
+      v:draw()
+    end
+  end
+  
   -- Render de las decoraciónes
   for i = Camera.visible_segments, 2, -1 do
     
@@ -88,22 +110,86 @@ function Road:createRoad()
   self:addSegment()
   
   -- Diseño de la carretera
-  self:createSection(200,-1, 20)
-  self:createSection(200, 1, 10)
-  self:createSection(200, 0, 0)
-  self:createSection(200, 1, -10)
-  self:createSection(200, 0, -20)
-  self:createSection(200, 1, -10)
-  self:createSection(200,-1, 0)
-  self:createSection(200,-2, 10)
-  self:createSection(200,-2, 20)
-  self:createSection(200,-1, 10)
-  self:createSection(200, 0, 0)
-  self:createSection(200, 0, -10)
-  self:createSection(200, 1, -20)
+  -- Boosque
+  self:createSection(65,  1.5,  15)
+  self:createSection(65,  0.8,  20)
+  self:createSection(65,  0.2,  25)
+  self:createSection(65, -0.8,  20)
+  self:createSection(65, -1.2,  15)
+  self:createSection(65, -1.5,  10)
+  self:createSection(65, -1.2,  0 )
+  self:createSection(65, -1,   -10)
+  self:createSection(65, -0.8, -15)
+  self:createSection(65,  0,   -20)
+  self.segments[651].color.road = {r = 1, g = 1, b = 1, a = 1}
+  -- Planes
+  self:createSection(65,  0.8, -25)
+  self:createSection(65,  1,   -25)
+  self:createSection(65,  1,   -20)
+  self:createSection(65, -1,   -10)
+  self:createSection(65,  0.8,   0)
+  self:createSection(65,  1,    10)
+  self:createSection(65,  2,    20)
+  self:createSection(65,  1,    30)
+  self:createSection(65, -1.5,  35)
+  self:createSection(65,  1,    30)
+  self:createSection(65, -0.8,  25)
+  self:createSection(65, -1.5,  20)
+  self:createSection(65, -1.9,  15)
+  self:createSection(65, -2.2,  10)
+  self:createSection(65, -2.8,   0)
+  self:createSection(65, -2.2,   0)
+  self:createSection(65, -1.9,  10)
+  self:createSection(65, -1.5,  20)
+  self:createSection(65, -0.2,  20)
+  self:createSection(65,  0.2,  10)
+  self.segments[#self.segments].color.road = {r = 1, g = 1, b = 1, a = 1}
+  -- Beach
+  self:createSection(65,  0.5,   5)
+  self:createSection(65,  0.8,   0)
+  self:createSection(65,  1,   -10)
+  self:createSection(65,  2,   -20)
+  self:createSection(65,  2,   -30)
+  self:createSection(65,  1,   -35)
+  self:createSection(65, -1,   -40)
+  self:createSection(65,  1,   -45)
+  self:createSection(65,  0,   -45)
+  self:createSection(65,  0,   -50)
+  self.segments[#self.segments].color.road = {r = 1, g = 1, b = 1, a = 1}
   
-  self:createDeco(0, 2600, 25, "assets/textures/deco/palm/left-2.png", -3)
-  self:createDeco(25, 2600, 25, "assets/textures/deco/palm/right-2.png", 2)
+  -- LIMITE DE DIBUJADO ANTES DE LLEGAR AL CRASHEO
+  self:createSection(199, 0,   -50)
+  
+  -- Decoración
+  -- Bosque 
+  -- 100%
+  self:createDeco(0, 2600, 100, "assets/textures/deco/rocks/left-rock1.png", -1.8)
+  self:createDeco(5, 2600, 100, "assets/textures/deco/rocks/right-rock1.png", 0.8)
+  --- 80%
+  self:createDeco(0, 0, 5, "", -2)
+  --- 60%
+  self:createDeco(0, 0, 5, "", -2)
+  -- Planes 
+  -- 50%
+  self:createDeco(0, 0, 5, "", -2)
+  --- 80%
+  self:createDeco(0, 0, 5, "", -2)
+  -- 40%
+  self:createDeco(0, 0, 5, "", -2)
+  -- Beach
+  -- 10%
+  self:createDeco(0, 0, 5, "", -2)
+  -- 70%
+  self:createDeco(0, 0, 5, "", -2)
+  -- 100%
+  self:createDeco(0, 0, 5, "", -2)
+  
+  -- LIMITE
+  self:createDeco(0, 0, 5, "", -2)
+  
+  for i = 200000, 0, -10000 do
+    self:addCar(i)
+  end
 
 end
 
@@ -133,6 +219,13 @@ function Road:createDeco(firstS, lastS, increment, path, offset)
   for i = math.max(1, firstS), math.min(lastS, #self.segments), increment do
     self.segments[i]:addDeco(path, offset)
   end
+end
+
+---------------
+-- /// TORTUGAS
+---------------
+function Road:addCar(z)
+  table.insert(self.cars, Turtle(z))
 end
 
 return Road

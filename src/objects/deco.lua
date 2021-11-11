@@ -25,7 +25,7 @@ function Deco:draw()
 end
 
 function Deco:project(index, s, p)
-  self.screen.scale = 1 - (index / Camera.visible_segments)
+  self.screen.scale = s.point.scale * DATA.scale.deco
   local sc = s.point.scale
   
   self.screen.x = s.point.screen.x + (sc * self.offset * DATA.road.width * w / 2)

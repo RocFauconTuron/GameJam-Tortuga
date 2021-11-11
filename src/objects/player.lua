@@ -1,14 +1,16 @@
 
+-- Engine
+local AnimatedActor = AnimatedActor or require "src/engine/AnimatedActor"
+
 -- Objects
 Camera = Camera or require "src/objects/camera"
 
 -- Locals
 DATA = DATA or require "src/DATA"
-local Turtle = Turtle or require "src/objects/turtle"
 local w, h = love.graphics.getDimensions()
 
 -- Class
-local Player = Turtle:extend()
+local Player = AnimatedActor:extend()
 ------------------------------
 
 function Player:new()
@@ -42,6 +44,7 @@ function Player:update(dt)
   Player.super.update(self, dt)
   -----------------------------
   self.z = self.z + (self.speed * dt)
+  self.z = self.z + 1
   
   local extra = 0
   if (self.speed <= 1) then extra = 1 end
@@ -81,6 +84,9 @@ function Player:update(dt)
     self.frame_rate = 1.1 - (self.speed / self.maxSpeed)
   end
   
+  --self.speed = self.maxSpeed
+  --self.position.x = w/2
+  
 end
 
 function Player:draw()
@@ -89,6 +95,8 @@ function Player:draw()
   -----------------------
   Player.super.draw(self)
   -----------------------
+  -- Collision Box
+  love.graphics.rectangle("line", self.position.x - self.origin.x, self.position.y - self.origin.y, self.width, self.height)
 end
 
 function Player:reload()
@@ -130,6 +138,14 @@ function Player:keyReleased(key)
   if (key == "d") then self.right = false end
   if (key == "w") then self.up = false end
   if (key == "s") then self.down = false end
+end
+
+function Player:curveShift(curve)
+  self.position.x = self.position.x + curve * (self.speed/self.maxSpeed)
+end
+
+function Player:upDownTheHill(altitude)
+  self.screen.y = altitude
 end
 
 return Player

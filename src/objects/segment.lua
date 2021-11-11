@@ -18,7 +18,7 @@ function Segment:new(index, z, curve, y)
   self.point = {}
   self.point.world = {x = 0, y = y or 0, z = z or 0}
   self.point.screen = {x = 0, y = 0, w = 0}
-  self.point.scale = -1 
+  self.point.scale = 0
   self.curve = curve or 0
   self.lanes = DATA.segment.lanes
   self.clip = 0

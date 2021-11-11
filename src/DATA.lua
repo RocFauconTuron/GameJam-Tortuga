@@ -16,6 +16,8 @@ DATA.background = {speed = 5000}
 DATA.segment = {lenght = 150, lanes = 7}
 DATA.camera = {}
 
+DATA.scale = {turtle = 2000, deco = 5000}
+
 return DATA
 
 -----------------------------------------------------------------
