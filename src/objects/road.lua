@@ -88,22 +88,82 @@ function Road:createRoad()
   self:addSegment()
   
   -- Diseño de la carretera
-  self:createSection(200,-1, 20)
-  self:createSection(200, 1, 10)
-  self:createSection(200, 0, 0)
-  self:createSection(200, 1, -10)
-  self:createSection(200, 0, -20)
-  self:createSection(200, 1, -10)
-  self:createSection(200,-1, 0)
-  self:createSection(200,-2, 10)
-  self:createSection(200,-2, 20)
-  self:createSection(200,-1, 10)
-  self:createSection(200, 0, 0)
-  self:createSection(200, 0, -10)
-  self:createSection(200, 1, -20)
+  -- Boosque
+  self:createSection(65,  1.5,  15)
+  self:createSection(65,  0.8,  20)
+  self:createSection(65,  0.2,  25)
+  self:createSection(65, -0.8,  20)
+  self:createSection(65, -1.2,  15)
+  self:createSection(65, -1.5,  10)
+  self:createSection(65, -1.2,  0 )
+  self:createSection(65, -1,   -10)
+  self:createSection(65, -0.8, -15)
+  self:createSection(65,  0,   -20)
+  self.segments[#self.segments].color.road = {r = 1, g = 1, b = 1, a = 1}
+  -- Planes
+  self:createSection(65,  0.8, -25)
+  self:createSection(65,  1,   -25)
+  self:createSection(65,  1,   -20)
+  self:createSection(65, -1,   -10)
+  self:createSection(65,  0.8,   0)
+  self:createSection(65,  1,    10)
+  self:createSection(65,  2,    20)
+  self:createSection(65,  1,    30)
+  self:createSection(65, -1.5,  35)
+  self:createSection(65,  1,    30)
+  self:createSection(65, -0.8,  25)
+  self:createSection(65, -1.5,  20)
+  self:createSection(65, -1.9,  15)
+  self:createSection(65, -2.2,  10)
+  self:createSection(65, -2.8,   0)
+  self:createSection(65, -2.2,   0)
+  self:createSection(65, -1.9,  10)
+  self:createSection(65, -1.5,  20)
+  self:createSection(65, -0.2,  20)
+  self:createSection(65,  0.2,  10)
+  self.segments[#self.segments].color.road = {r = 1, g = 1, b = 1, a = 1}
+  -- Beach
+  self:createSection(65,  0.5,   5)
+  self:createSection(65,  0.8,   0)
+  self:createSection(65,  1,   -10)
+  self:createSection(65,  2,   -20)
+  self:createSection(65,  2,   -30)
+  self:createSection(65,  1,   -35)
+  self:createSection(65, -1,   -40)
+  self:createSection(65,  1,   -45)
+  self:createSection(65,  0,   -45)
+  self:createSection(65,  0,   -50)
+  self.segments[#self.segments].color.road = {r = 1, g = 1, b = 1, a = 1}
   
-  self:createDeco(0, 2600, 25, "assets/textures/deco/palm/left-2.png", -3)
-  self:createDeco(25, 2600, 25, "assets/textures/deco/palm/right-2.png", 2)
+  -- LIMITE DE DIBUJADO ANTES DE LLEGAR AL CRASHEO
+  self:createSection(199, 0,   -50)
+  
+  local indexLOCO = 0
+  -- Decoración
+  -- Bosque 
+  -- 100%
+  self:createDeco(0, 0, 5, "", -2)
+  --- 80%
+  self:createDeco(0, 0, 5, "", -2)
+  --- 60%
+  self:createDeco(0, 0, 5, "", -2)
+  -- Planes 
+  -- 50%
+  self:createDeco(0, 0, 5, "", -2)
+  --- 80%
+  self:createDeco(0, 0, 5, "", -2)
+  -- 40%
+  self:createDeco(0, 0, 5, "", -2)
+  -- Beach
+  -- 10%
+  self:createDeco(0, 0, 5, "", -2)
+  -- 70%
+  self:createDeco(0, 0, 5, "", -2)
+  -- 100%
+  self:createDeco(0, 0, 5, "", -2)
+  
+  -- LIMITE
+  self:createDeco(0, 0s, 5, "", -2)
 
 end
 
