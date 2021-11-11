@@ -44,7 +44,6 @@ function Player:update(dt)
   Player.super.update(self, dt)
   -----------------------------
   self.z = self.z + (self.speed * dt)
-  self.z = self.z + 1
   
   local extra = 0
   if (self.speed <= 1) then extra = 1 end
@@ -96,7 +95,7 @@ function Player:draw()
   Player.super.draw(self)
   -----------------------
   -- Collision Box
-  love.graphics.rectangle("line", self.position.x - self.origin.x, self.position.y - self.origin.y, self.width, self.height)
+  --love.graphics.rectangle("line", self.position.x - self.origin.x, self.position.y - self.origin.y, self.width, self.height)
 end
 
 function Player:reload()
@@ -139,6 +138,11 @@ function Player:keyReleased(key)
   if (key == "w") then self.up = false end
   if (key == "s") then self.down = false end
 end
+
+function Player:collision(s)
+  self.speed = s / 100
+end
+
 
 function Player:curveShift(curve)
   self.position.x = self.position.x + curve * (self.speed/self.maxSpeed)

@@ -79,12 +79,14 @@ function AnimatedActor:loadAnimation(path, animations, frames)
 end
 
 function AnimatedActor:setAnimation(animation)
-  self.animation = animation
-  if ((self.animation < 0) or (self.animation > self.total_animations)) then
-    self.aniomation = 1
+  if (self.animation ~= animation) then
+    self.animation = animation
+    if ((self.animation < 0) or (self.animation > self.total_animations)) then
+      self.aniomation = 1
+    end
+    self.frame = 1
+    self.animation_time = 0
   end
-  self.frame = 1
-  self.animation_time = 0
 end
 
 function AnimatedActor:animFinished()

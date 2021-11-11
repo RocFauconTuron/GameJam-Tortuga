@@ -67,15 +67,11 @@ function Road:draw()
     end
     
   end
-  
-  print(self.segments[651].point.scale)
-  
+
   -- Render de los coches
   for i,v in ipairs(self.cars) do
     if ((v.z < Camera.z + (Camera.visible_segments * DATA.segment.lenght)) and (v.z >= Camera.z)) then
-      local ax = v.z - Camera.z
-      local ay = Camera.z + (Camera.visible_segments * DATA.segment.lenght) - Camera.z
-      v:project(self:getSegment(v.z), 1 - (ax * 10 / ay) / 10)
+      v:project(self:getSegment(v.z))
       v:draw()
     end
   end
@@ -98,6 +94,28 @@ function Road:draw()
   end
 
 end
+
+function Road:checkCol(player)
+  for i,v in ipairs(self.cars) do
+    if ((v.z < Camera.z + 1000) and (v.z > Camera.z + 100)) then
+      local x1 = player.position.x - player.origin.x
+      local y1 = player.position.y - player.origin.y
+      local w1 = player.width
+      local h1 = player.height
+      
+      local x2 = v.position.x - v.origin.x * v.scale.x
+      local y2 = v.position.y - v.origin.y * v.scale.y
+      local w2 = v.width * v.scale.x
+      local h2 = v.height * v.scale.y
+      
+      if (self.intersect(x1, y1, w1, h1, x2, y2, w2, h2)) then
+        player:collision(v.speed)
+      end
+      
+    end
+  end
+end
+
 
 -----------------------------------
 -- /// CONSTRUCCIÓN DE LA CARRETERA
@@ -226,6 +244,10 @@ end
 ---------------
 function Road:addCar(z)
   table.insert(self.cars, Turtle(z))
+end
+
+function Road.intersect(x1, y1, w1, h1, x2, y2, w2, h2)
+  return (((x2 + w2) > x1) and (x2 < (x1 + w1)) and ((y2 + h2) > y1) and (y2 < (y1 + h1)))
 end
 
 return Road

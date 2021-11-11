@@ -45,6 +45,8 @@ function GamePlay:update(dt)
   pr:curveShift(rd:getSegment(Camera.z).curve)
   pr:upDownTheHill(rd:getSegment(Camera.z).point.world.y)
   
+  rd:checkCol(pr)
+  
   bg.position.x = bg.position.x + rd:getSegment(Camera.z).curve * (pr.speed / DATA.background.speed)
   
   -- Condición de pasar a Game Over, 43s de gameplay a máxima 
