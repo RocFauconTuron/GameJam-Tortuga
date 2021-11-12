@@ -17,7 +17,7 @@ local Turtle = AnimatedActor:extend()
 -------------------------------------
 
 function Turtle:new(z)
-  Turtle.super.new(self, w/2, h/2, "assets/textures/enemies/" .. math.random(1, 5) .. ".png", math.random(2000, 7000), 0, 3, 4, 0.1, true)
+  Turtle.super.new(self, w/2, h/2, "assets/textures/enemies/" .. math.random(1, 6) .. ".png", math.random(2000, 7000), 0, 3, 4, 0.1, true)
   -------------------------------------------------------------------------------------------
   self:changeLine()
   
