@@ -3,6 +3,7 @@ local Scene = Scene or require "src/engine/Scene"
 local UIText = UIText or require "src/engine/UIText"
 local Entity = Entity or require "src/engine/Entity"
 local Timer = Timer or require "src/engine/Timer"
+local Audio = Audio or require "src/engine/Audio"
 
 
 -- Locals
@@ -10,6 +11,9 @@ local w, h = love.graphics.getDimensions()
 
 --Timer
 local timer = Timer(0, function() end,false,true)
+
+--Audio
+local audio = Audio()
 
 --Fade
 local controllerTitol = true
@@ -27,7 +31,8 @@ local alphaIntro5 = 0
 local fadein  = 1
 local display = 2
 local fadeout = 3
-  
+musicControllerIntro = true
+
 -- Class
 local GameIntro = Scene:extend()
 --------------------------------
@@ -36,25 +41,29 @@ function GameIntro:new()
   GameIntro.super.new(self)
   -------------------------
   self:addEntity(timer)
-  self:addEntity(Entity(w/2, h/2, "assets/textures/scene/intro/intro-5.jpg"))
-  self:addEntity(Entity(w/2, h/2, "assets/textures/scene/intro/intro-4.jpg"))
-  self:addEntity(Entity(w/2, h/2, "assets/textures/scene/intro/intro-3.jpg"))
-  self:addEntity(Entity(w/2, h/2, "assets/textures/scene/intro/intro-2.jpg"))
-  self:addEntity(Entity(w/2, h/2, "assets/textures/scene/intro/intro-1.jpg"))
   self:addEntity(Entity(w / 2, h / 2, "assets/textures/scene/intro/troturace.png"))
-  self.entities[7].scale.x = 0.35
-  self.entities[7].scale.y = 0.35
+  self.entities[2].scale.x = 0.35
+  self.entities[2].scale.y = 0.35
   self:addEntity(Entity(200, 120, "assets/textures/scene/intro/trotuman.png"))
-  self.entities[8].scale.x = 0.5
-  self.entities[8].scale.y = 0.5
+  self.entities[3].scale.x = 0.5
+  self.entities[3].scale.y = 0.5
   self:addEntity(Entity(800, 120, "assets/textures/scene/intro/trotuman.png"))
-  self.entities[9].scale.x = 0.5
-  self.entities[9].scale.y = 0.5
+  self.entities[4].scale.x = 0.5
+  self.entities[4].scale.y = 0.5
+  self:addEntity(Entity(w/2, h/2, "assets/textures/scene/intro/intro-1.jpg"))
+  self:addEntity(Entity(w/2, h/2, "assets/textures/scene/intro/intro-2.jpg"))
+  self:addEntity(Entity(w/2, h/2, "assets/textures/scene/intro/intro-3.jpg"))
+  self:addEntity(Entity(w/2, h/2, "assets/textures/scene/intro/intro-4.jpg"))
+  self:addEntity(Entity(w/2, h/2, "assets/textures/scene/intro/intro-5.jpg"))
 end
 
 function GameIntro:update(dt)
-  GameIntro.super.update(self, dt)
-  --------------------------------
+
+  if musicControllerIntro then
+    audio:play("music/introSong",1)
+    musicControllerIntro = false
+  end
+
   if controllerTitol then
     if 0 < timer.time and timer.time < fadein then 
       alphaTitol = timer.time / fadein  
@@ -63,12 +72,13 @@ function GameIntro:update(dt)
       alphaTitol = 1  
     end
     if display < timer.time and timer.time < fadeout then 
-      alphaTitol = 1 - ((timer.time - display) / (fadeout - display))
+      alphaTitol = 1 - ((timer.time - display) / (fadeout - display))   
     end
     if timer.time > fadeout then 
       controllerTitol = false
       controllerIntro1 = true
       timer.time = 0
+      alphaTitol = 0
     end
    elseif controllerIntro1 then
     if 0 < timer.time and timer.time < fadein then 
@@ -84,6 +94,7 @@ function GameIntro:update(dt)
       controllerIntro1 = false
       controllerIntro2 = true
       timer.time = 0
+      alphaIntro1 = 0
     end
   elseif controllerIntro2 then
     if 0 < timer.time and timer.time < fadein then 
@@ -99,6 +110,7 @@ function GameIntro:update(dt)
       controllerIntro2 = false
       controllerIntro3 = true
       timer.time = 0
+      alphaIntro2 = 0
     end
   elseif controllerIntro3 then
     if 0 < timer.time and timer.time < fadein then 
@@ -114,6 +126,7 @@ function GameIntro:update(dt)
       controllerIntro3 = false
       controllerIntro4 = true
       timer.time = 0
+      alphaIntro3 = 0
     end
   elseif controllerIntro4 then
     if 0 < timer.time and timer.time < fadein then 
@@ -138,17 +151,19 @@ function GameIntro:update(dt)
       timer.time = 0
     end
   end
+  --------------------------------
+  GameIntro.super.update(self, dt)
 end
 
 function GameIntro:draw()
-  self.entities[6].color = {r = 1, g = 1, b = 1, a = alphaIntro1}
-  self.entities[5].color = {r = 1, g = 1, b = 1, a = alphaIntro2}
-  self.entities[4].color = {r = 1, g = 1, b = 1, a = alphaIntro3}
-  self.entities[3].color = {r = 1, g = 1, b = 1, a = alphaIntro4}
-  self.entities[2].color = {r = 1, g = 1, b = 1, a = alphaIntro5}
-  self.entities[7].color = {r = 1, g = 1, b = 1, a = alphaTitol}
-  self.entities[8].color = {r = 1, g = 1, b = 1, a = alphaTitol}
-  self.entities[9].color = {r = 1, g = 1, b = 1, a = alphaTitol}
+  self.entities[2].color = {r = 1, g = 1, b = 1, a = alphaTitol}
+  self.entities[3].color = {r = 1, g = 1, b = 1, a = alphaTitol}
+  self.entities[4].color = {r = 1, g = 1, b = 1, a = alphaTitol}
+  self.entities[5].color = {r = 1, g = 1, b = 1, a = alphaIntro1}
+  self.entities[6].color = {r = 1, g = 1, b = 1, a = alphaIntro2}
+  self.entities[7].color = {r = 1, g = 1, b = 1, a = alphaIntro3}
+  self.entities[8].color = {r = 1, g = 1, b = 1, a = alphaIntro4}
+  self.entities[9].color = {r = 1, g = 1, b = 1, a = alphaIntro5}
   --------------------------
   GameIntro.super.draw(self)
   --------------------------
@@ -168,7 +183,11 @@ end
 function GameIntro:keyPressed(key)
   GameIntro.super.keyPressed(self, key)
   -------------------------------------
-  if (key == "space") then self:nextScene() end
+  if (key == "space") then 
+    musicController = true
+    audio:stop("music/introSong",1,true) 
+    self:nextScene()
+  end
 end
 
 return GameIntro

@@ -5,9 +5,13 @@ local AnimatedActor = AnimatedActor or require "src/engine/AnimatedActor"
 -- Objects
 Camera = Camera or require "src/objects/camera"
 
+local Audio = Audio or require "src/engine/Audio"
+
 -- Locals
 DATA = DATA or require "src/DATA"
 local w, h = love.graphics.getDimensions()
+
+fxController = true
 
 -- Class
 local Player = AnimatedActor:extend()
@@ -83,6 +87,14 @@ function Player:update(dt)
     self.frame_rate = 1.1 - (self.speed / self.maxSpeed)
   end
   
+  if (Camera.z > 389500) then 
+    Audio:stop("fx/correr")
+    Audio:stop("fx/derrape")
+    Audio:stop("fx/pew")
+    Audio:stop("fx/frenar")
+    fxController = false
+  end
+  
   --self.speed = self.maxSpeed
   --self.position.x = w/2
   
@@ -121,22 +133,49 @@ function Player:reload()
   
 end
 
+
 function Player:keyPressed(key)
   Player.super.keyPressed(self, key)
   ----------------------------------
-  if (key == "a") then self.left = true end
-  if (key == "d") then self.right = true end
-  if (key == "w") then self.up = true end
-  if (key == "s") then self.down = true end
+  if fxController then
+    if (key == "a") then 
+      self.left = true     
+      Audio:play("fx/derrape",0.3,true)
+    end
+    if (key == "d") then 
+      self.right = true 
+      Audio:play("fx/derrape",0.3,true)
+    end
+    if (key == "w") then 
+      self.up = true
+      Audio:play("fx/correr",0.2,true)
+    end
+    if (key == "s") then 
+      self.down = true
+      Audio:play("fx/derrape",0.3,true)
+    end
+  end
 end
 
 function Player:keyReleased(key)
   Player.super.keyReleased(self, key)
   -----------------------------------
-  if (key == "a") then self.left = false end
-  if (key == "d") then self.right = false end
-  if (key == "w") then self.up = false end
-  if (key == "s") then self.down = false end
+  if (key == "a") then 
+    self.left = false 
+    Audio:stop("fx/derrape") 
+  end
+  if (key == "d") then 
+    self.right = false 
+    Audio:stop("fx/derrape") 
+  end
+  if (key == "w") then 
+    self.up = false 
+    Audio:stop("fx/correr") 
+  end
+  if (key == "s") then 
+    self.down = false
+    Audio:stop("fx/derrape") 
+  end
 end
 
 function Player:collision(s)

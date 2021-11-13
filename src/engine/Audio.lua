@@ -13,10 +13,11 @@ function Audio:new()
   self.audios = {}
 end
 
-function Audio:play(name, volume)
+function Audio:play(name, volume, loop)
   if (not self:exist(name)) then self:loadAudio(name) end
   self.audios[name]:setVolume(volume or 1)
   self.audios[name]:play()
+  self.audios[name]:setLooping(loop or false)
 end
 
 function Audio:pause(name)

@@ -6,6 +6,7 @@ local Object = Object or require "lib/classic"
 Camera = Camera or require "src/objects/camera"
 local Segment = Segment or require "src/objects/segment"
 local Turtle = Turtle or require "src/objects/Turtle"
+local Audio = Audio or require "src/objects/Audio"
 
 -- Locals
 DATA = DATA or require "src/DATA"
@@ -110,6 +111,7 @@ function Road:checkCol(player)
       
       if (self.intersect(x1, y1, w1, h1, x2, y2, w2, h2)) then
         player:collision(v.speed)
+        Audio:play("fx/hit")
       end
       
     end
@@ -226,6 +228,12 @@ end
 function Road:getSegment(pos)
   if (pos < 0) then pos = pos + self.lenght end
   return self.segments[(math.floor(pos / DATA.segment.lenght) % #self.segments) + 1]
+end
+
+function Road:setRoadColor(firstS, lastS, road, grass, rumble, lane)
+    for i = math.max(1, firstS), math.min(lastS, #self.segments), 1 do
+      self.segments[i]:setColors(road, grass, rumble, lane)
+    end
 end
 
 -------------------------------
