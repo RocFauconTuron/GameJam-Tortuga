@@ -140,11 +140,9 @@ function Player:keyPressed(key)
   if fxController then
     if (key == "a") then 
       self.left = true     
-      Audio:play("fx/derrape",0.3,true)
     end
     if (key == "d") then 
       self.right = true 
-      Audio:play("fx/derrape",0.3,true)
     end
     if (key == "w") then 
       self.up = true
