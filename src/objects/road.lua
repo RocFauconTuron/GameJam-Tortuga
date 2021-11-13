@@ -7,6 +7,7 @@ Camera = Camera or require "src/objects/camera"
 local Segment = Segment or require "src/objects/segment"
 local Turtle = Turtle or require "src/objects/Turtle"
 local Audio = Audio or require "src/objects/Audio"
+local Inter = Inter or require "src/objects/Inter"
 
 -- Locals
 DATA = DATA or require "src/DATA"
@@ -17,20 +18,13 @@ local Road = Object:extend()
 ----------------------------
 
 function Road:new()
-
-  -- Array de coches
-  self.cars = {}
-
-  -- Creamos la carretera y añadimos la decoracción
-  self:createRoad()
-  
-  -- Calculamos el tamaño total de la carretera
-  self.lenght = #self.segments * DATA.segment.lenght
-  
 end
 
 function Road:update(dt)
   for _,v in ipairs(self.cars) do
+    v:update(dt)
+  end
+  for _,v in ipairs(self.inter) do
     v:update(dt)
   end
 end
@@ -68,6 +62,14 @@ function Road:draw()
     end
     
   end
+  
+  -- Render de los inter
+  for i,v in ipairs(self.inter) do
+    if ((v.z < Camera.z + (Camera.visible_segments * DATA.segment.lenght)) and (v.z >= Camera.z)) then
+      v:project(self:getSegment(v.z))
+      v:draw()
+    end
+  end
 
   -- Render de los coches
   for i,v in ipairs(self.cars) do
@@ -97,13 +99,15 @@ function Road:draw()
 end
 
 function Road:checkCol(player)
+  
+  local x1 = player.position.x - player.origin.x
+  local y1 = player.position.y - player.origin.y
+  local w1 = player.width
+  local h1 = player.height
+      
   for i,v in ipairs(self.cars) do
     if ((v.z < Camera.z + 1000) and (v.z > Camera.z + 100)) then
-      local x1 = player.position.x - player.origin.x
-      local y1 = player.position.y - player.origin.y
-      local w1 = player.width
-      local h1 = player.height
-      
+  
       local x2 = v.position.x - v.origin.x * v.scale.x
       local y2 = v.position.y - v.origin.y * v.scale.y
       local w2 = v.width * v.scale.x
@@ -116,8 +120,44 @@ function Road:checkCol(player)
       
     end
   end
+  
+  local cl = false
+  local ch = false
+  for i,v in ipairs(self.inter) do
+    if ((v.z < Camera.z + 1000) and (v.z > Camera.z + 100)) then
+      local x2 = v.position.x - v.origin.x * v.scale.x
+      local y2 = v.position.y - v.origin.y * v.scale.y
+      local w2 = v.width * v.scale.x
+      local h2 = v.height * v.scale.y
+      
+      if (self.intersect(x1, y1, w1, h1, x2, y2, w2, h2)) then
+        if (v.t == "clock") then 
+          cl = true 
+          table.remove(self.inter, i)
+        end
+        if (v.t == "charco") then ch = true end
+      end
+      
+    end
+  end
+  
+  return cl, ch
+  
 end
 
+function Road:reload()
+  -- Array de coches
+  self.cars = {}
+  
+  -- Array de interactuables
+  self.inter ={}
+
+  -- Creamos la carretera y añadimos la decoracción
+  self:createRoad()
+  
+  -- Calculamos el tamaño total de la carretera
+  self.lenght = #self.segments * DATA.segment.lenght
+end
 
 -----------------------------------
 -- /// CONSTRUCCIÓN DE LA CARRETERA
@@ -141,7 +181,6 @@ function Road:createRoad()
   self:createSection(65, -1,   -10)
   self:createSection(65, -0.8, -15)
   self:createSection(65,  0,   -20)
-  self.segments[#self.segments].color.road = {r = 1, g = 1, b = 1, a = 1}
   -- Planes
   self:createSection(65,  0.8, -25)
   self:createSection(65,  1,   -25)
@@ -163,7 +202,6 @@ function Road:createRoad()
   self:createSection(65, -1.5,  20)
   self:createSection(65, -0.2,  20)
   self:createSection(65,  0.2,  10)
-  self.segments[#self.segments].color.road = {r = 1, g = 1, b = 1, a = 1}
   -- Beach
   self:createSection(65,  0.5,   5)
   self:createSection(65,  0.8,   0)
@@ -175,7 +213,7 @@ function Road:createRoad()
   self:createSection(65,  1,   -45)
   self:createSection(65,  0,   -45)
   self:createSection(65,  0,   -50)
-  self.segments[#self.segments].color.road = {r = 1, g = 1, b = 1, a = 1}
+  
   
   -- LIMITE DE DIBUJADO ANTES DE LLEGAR AL CRASHEO
   self:createSection(199, 0,   -50)
@@ -205,8 +243,18 @@ function Road:createRoad()
   self:createDeco(2406, 2800, 25, "beach/left-umbrella3.png", -2)
   
   -- COCHES
-  for i = 200000, 0, -10000 do
+  for i = 200000, 0, -5000 do
     self:addCar(i)
+  end
+
+  -- Relojes
+  for i=0, 5, 1 do
+    self:createInter(math.random(10000, (#self.segments - 300) * DATA.segment.lenght), "clock")
+  end
+  
+  -- Charcos
+  for i=0, 15, 1 do
+    self:createInter(math.random(10000, (#self.segments - 300) * DATA.segment.lenght), "charco")
   end
 
 end
@@ -243,6 +291,13 @@ function Road:createDeco(firstS, lastS, increment, path, offset)
   for i = math.max(1, firstS), math.min(lastS, #self.segments), increment do
     self.segments[i]:addDeco("assets/textures/deco/" .. path, offset)
   end
+end
+
+------------------------------------
+-- /// GESTIÓN DE LOS INTERACTUABLES
+------------------------------------
+function Road:createInter(z, t)
+  table.insert(self.inter, Inter(z, t))
 end
 
 ---------------

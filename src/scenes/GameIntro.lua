@@ -5,15 +5,11 @@ local Entity = Entity or require "src/engine/Entity"
 local Timer = Timer or require "src/engine/Timer"
 local Audio = Audio or require "src/engine/Audio"
 
-
 -- Locals
 local w, h = love.graphics.getDimensions()
 
 --Timer
 local timer = Timer(0, function() end,false,true)
-
---Audio
-local audio = Audio()
 
 --Fade
 local controllerTitol = true
@@ -31,7 +27,6 @@ local alphaIntro5 = 0
 local fadein  = 1
 local display = 2
 local fadeout = 3
-musicControllerIntro = true
 
 -- Class
 local GameIntro = Scene:extend()
@@ -55,14 +50,10 @@ function GameIntro:new()
   self:addEntity(Entity(w/2, h/2, "assets/textures/scene/intro/intro-3.jpg"))
   self:addEntity(Entity(w/2, h/2, "assets/textures/scene/intro/intro-4.jpg"))
   self:addEntity(Entity(w/2, h/2, "assets/textures/scene/intro/intro-5.jpg"))
+  Audio:play("music/introSong",1)
 end
 
 function GameIntro:update(dt)
-
-  if musicControllerIntro then
-    audio:play("music/introSong",1)
-    musicControllerIntro = false
-  end
 
   if controllerTitol then
     if 0 < timer.time and timer.time < fadein then 
@@ -172,20 +163,37 @@ end
 function GameIntro:reload()
   GameIntro.super.reload(self)
   ----------------------------
-  self.entities[7].scale.x = 0.35
-  self.entities[7].scale.y = 0.35
-  self.entities[8].scale.x = 0.5
-  self.entities[8].scale.y = 0.5
-  self.entities[9].scale.x = 0.5
-  self.entities[9].scale.y = 0.5
+  self.entities[2].scale.x = 0.35
+  self.entities[2].scale.y = 0.35
+  self.entities[3].scale.x = 0.5
+  self.entities[3].scale.y = 0.5
+  self.entities[4].scale.x = 0.5
+  self.entities[4].scale.y = 0.5
+  
+  controllerTitol = true
+  controllerIntro1 = false
+  controllerIntro2 = false
+  controllerIntro3 = false
+  controllerIntro4 = false
+  controllerBucle = false
+  alphaTitol = 0
+  alphaIntro1 = 0
+  alphaIntro2 = 0
+  alphaIntro3 = 0
+  alphaIntro4 = 0
+  alphaIntro5 = 0
+  fadein  = 1
+  display = 2
+  fadeout = 3
+  
+  Audio:play("music/introSong",1)
 end
 
 function GameIntro:keyPressed(key)
   GameIntro.super.keyPressed(self, key)
   -------------------------------------
   if (key == "space") then 
-    musicController = true
-    audio:stop("music/introSong",1,true) 
+    Audio:stop("music/introSong") 
     self:nextScene()
   end
 end

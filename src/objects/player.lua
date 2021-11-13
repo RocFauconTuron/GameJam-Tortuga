@@ -7,6 +7,8 @@ Camera = Camera or require "src/objects/camera"
 
 local Audio = Audio or require "src/engine/Audio"
 
+audio = Audio()
+
 -- Locals
 DATA = DATA or require "src/DATA"
 local w, h = love.graphics.getDimensions()
@@ -42,6 +44,12 @@ function Player:new()
   self.maxSpeed = (self.segmentLength) / (1/60)
   
   self.speed = 0 --self.maxSpeed
+end
+
+function Player:colWater()
+  -- SONIDO DE CHOCHE CON AGUA
+  self.speed = self.speed - (self.maxSpeed / 8)
+  self.speed = math.min(self.maxSpeed, (math.max(500, self.speed)))
 end
 
 function Player:update(dt)
@@ -85,14 +93,6 @@ function Player:update(dt)
     self.frame_rate = 0.1
   else
     self.frame_rate = 1.1 - (self.speed / self.maxSpeed)
-  end
-  
-  if (Camera.z > 389500) then 
-    Audio:stop("fx/correr")
-    Audio:stop("fx/derrape")
-    Audio:stop("fx/pew")
-    Audio:stop("fx/frenar")
-    fxController = false
   end
   
   --self.speed = self.maxSpeed

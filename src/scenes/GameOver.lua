@@ -21,7 +21,6 @@ local timerText = Timer(0, function() end,false,true)
 
 local listController = 2
 local fade = {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} 
-musicControllerGameOver = true
 
 function GameOver:new()
   GameOver.super.new(self)
@@ -48,24 +47,17 @@ function GameOver:new()
   self:addEntity(UIText(w / 2, 100, "GAME OVER", "center", 40))
   self:addEntity(UIText(w / 2, 250, "PRESS SPACE TO PLAY AGAIN", "center", 40))
   self:addEntity(timerText)
-
 end
 
 function GameOver:update(dt)
   GameOver.super.update(self, dt)
   -------------------------------
-  if musicControllerGameOver then
-    Audio:play("music/gameOverSong",0.4,true)
-    musicControllerGameOver = false
-  end
-
   for i = 2, 16 do
     if i == listController and timer.time > 0.5 then
       fade[i-1] = 0
       fade[i] = 1
       timer.time = 0
       listController = i + 1
-      print(listController)
     end
   end
 
@@ -107,6 +99,8 @@ end
 function GameOver:reload()
   GameOver.super.reload(self)
   ---------------------------
+  Audio:play("music/gameOverSong",0.4,true)
+
 end
 
 function GameOver:keyPressed(key)
