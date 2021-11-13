@@ -11,6 +11,7 @@ Camera = Camera or require "src/objects/camera"
 -- Locals
 DATA = DATA or require "src/DATA"
 local w, h = love.graphics.getDimensions()
+local time = 0
 
 -- Class
 local Turtle = AnimatedActor:extend()
@@ -29,6 +30,13 @@ function Turtle:update(dt)
   Turtle.super.update(self, dt)
   -----------------------------
   self.z = self.z + (self.speed * dt)
+  time = time + dt
+  if time > 15 then
+    self:changeLine()
+    time = 0
+  end
+
+
 end
 
 function Turtle:draw()
@@ -59,8 +67,14 @@ function Turtle:project(s)
   
 end
 
-function Turtle:changeLine()
+function Turtle:setLine()
   self.line = math.random(0, DATA.segment.lanes-1)
 end
 
+function Turtle:changeLine()
+  --[[leftLine = self.line - 1
+  rightLine = self.line + 1
+  self.line = math.random(leftLine, rightLine)]]
+  self.line = math.random(0, DATA.segment.lanes-1)
+  end
 return Turtle

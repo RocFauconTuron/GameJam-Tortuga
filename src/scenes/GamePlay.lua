@@ -8,12 +8,15 @@ local Entity = Entity or require "src/engine/Entity"
 Camera = Camera or require "src/objects/camera"
 local Road = Road or require "src/objects/Road"
 local Player = Player or require "src/objects/Player"
+local UIText = UIText or require "src/engine/UIText"
+local Speedometer = Speedometer or require "src/objects/speedometer"
 
 -- Locals
 local background_id = -1
 local turtle_id = -1
 local player_id = -1
-
+local hud_id = -1
+local speed_id = -1
 local w, h = love.graphics.getDimensions()
 
 -- Class
@@ -30,6 +33,8 @@ function GamePlay:new()
   background_ids = self:addEntity(Entity(w*4, 277, "assets/textures/scene/play/background.png"))
   road_id = self:addEntity(Road())
   player_id = self:addEntity(Player())
+  hud_id = self:addEntity(UIText(20, 40, " ", "left", 1, {0,0,0,1}))
+  speed_id = self:addEntity(Speedometer())
   
 end
 
@@ -41,6 +46,8 @@ function GamePlay:update(dt)
   local bgs = self:getEntity(background_ids)
   local pr = self:getEntity(player_id)
   local rd = self:getEntity(road_id)
+  local hd = self:getEntity(hud_id)
+  local sd = self:getEntity(speed_id)
   
   Camera:update(pr, dt)
   
@@ -55,6 +62,7 @@ function GamePlay:update(dt)
   -- Condición de pasar a Game Over, 43s de gameplay a máxima 
   if (Camera.z > 390000) then self:nextScene() end
   
+  hd:setText("Speed ")
 end
 
 return GamePlay
