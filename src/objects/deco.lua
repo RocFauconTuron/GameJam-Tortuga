@@ -15,18 +15,22 @@ function Deco:new(path, offset)
   
   self.screen = {x = 0, y = 0, scale = 0}
   
+  self.alpha = 0
+  
   self.offset = offset or 0
   self.texture = love.graphics.newImage(path or "assets/texture/pixel.png")
 end
 
 function Deco:draw()
-  love.graphics.setColor(1, 1, 1, 1)
+  love.graphics.setColor(1, 1, 1, self.alpha)
   love.graphics.draw(self.texture, self.texture_quad, self.screen.x, self.screen.y, 0, self.screen.scale, self.screen.scale)
 end
 
 function Deco:project(index, s, p)
   self.screen.scale = s.point.scale * DATA.scale.deco
   local sc = s.point.scale
+  
+  
   
   self.screen.x = s.point.screen.x + (sc * self.offset * DATA.road.width * w / 2)
   self.screen.y = s.point.screen.y - self.texture:getHeight() * self.screen.scale
