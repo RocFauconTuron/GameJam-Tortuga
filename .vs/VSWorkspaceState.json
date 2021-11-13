@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src",
+    "\\src\\engine",
+    "\\src\\objects",
+    "\\src\\scenes"
   ],
-  "SelectedNode": "\\Readme.txt",
+  "SelectedNode": "\\src\\objects\\turtle.lua",
   "PreviewInSolutionExplorer": false
 }

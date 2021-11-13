@@ -10,12 +10,14 @@ local UIText = UIText or require "src/engine/UIText"
 Camera = Camera or require "src/objects/camera"
 local Road = Road or require "src/objects/Road"
 local Player = Player or require "src/objects/Player"
+local Speedometer = Speedometer or require "src/objects/speedometer"
 
 -- Locals
 local background_id = -1
 local turtle_id = -1
 local player_id = -1
 local txt_id = -1
+local speed_id = -1
 
 local total_time = 60
 
@@ -34,6 +36,7 @@ function GamePlay:new()
   background_id = self:addEntity(Entity(w / 2, 277, "assets/textures/scene/play/background.png"))
   road_id = self:addEntity(Road())
   player_id = self:addEntity(Player())
+  speed_id = self:addEntity(Speedometer())
   
   txt_id = self:addEntity(UIText(w / 2 - 35, 100, "", "left", 72))
 end
@@ -45,6 +48,7 @@ function GamePlay:update(dt)
   local bg = self:getEntity(background_id)
   local pr = self:getEntity(player_id)
   local rd = self:getEntity(road_id)
+  local sd = self:getEntity(speed_id)
   
   total_time = total_time - dt
   self:getEntity(txt_id):setText(tonumber(string.format("%.1f", tostring(total_time))))

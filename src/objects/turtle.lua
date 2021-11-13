@@ -19,7 +19,7 @@ local Turtle = AnimatedActor:extend()
 function Turtle:new(z)
   Turtle.super.new(self, w/2, h/2, "assets/textures/enemies/" .. math.random(1, 6) .. ".png", math.random(2000, 7000), 0, 3, 4, 0.1, true)
   -------------------------------------------------------------------------------------------
-  self:changeLine()
+  self:setLine()
   
   self.z = z or 0
   
@@ -59,8 +59,14 @@ function Turtle:project(s)
   
 end
 
-function Turtle:changeLine()
+function Turtle:setLine()
   self.line = math.random(0, DATA.segment.lanes-1)
 end
+
+function Turtle:changeLine()
+  leftLine = self.line - 1
+  rightLine = self.line + 1
+  self.line = math.random(leftLine, rightLine)
+  end
 
 return Turtle
