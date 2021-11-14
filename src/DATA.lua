@@ -17,6 +17,12 @@ DATA.c804000 = {r = norm(97), g = norm(74),  b = norm(0),   a = 1} --RUMBLE
 DATA.cCC8800 = {r = norm(29), g = norm(120), b = norm(56),   a = 1}  --LINE
 DATA.c004D0D = {r = norm(43),   g = norm(173),  b = norm(82),  a = 1} --GRASS
 
+-- Tunel 
+DATA.t1 = {r = norm(160), g = norm(160), b = norm(160),   a = 1} --ROAD
+DATA.t2 = {r = norm(0), g = norm(0),  b = norm(0),   a = 1} --GRASS
+DATA.t3 = {r = norm(32), g = norm(32), b = norm(32),   a = 1}  --RUMBLE
+DATA.t4 = {r = norm(128),   g = norm(128),  b = norm(128),  a = 1} --LANE
+
 --MIX
 DATA.mB37700 = {r = norm(173), g = norm(162), b = norm(83),   a = 1} 
 DATA.m804000 = {r = norm(153), g = norm(130),  b = norm(101),   a = 1} 

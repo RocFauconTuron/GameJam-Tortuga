@@ -1,9 +1,11 @@
 
 -- Singletons
-local Audio = Audio or require "src/engine/Audio"
+Audio = Audio or require "src/engine/Audio"
+Container = Container or require "src/engine/Container"
 
 -- Init de singletons
 Audio:new()
+Container:new()
 
 -- Scenes
 local GI = SceneIntro or require "src/scenes/GameIntro" -- ID 1

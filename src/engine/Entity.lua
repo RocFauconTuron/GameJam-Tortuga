@@ -9,6 +9,8 @@ local Vector = Vector or require "lib/vector"
 -- Locals
 local w, h = love.graphics.getDimensions()
 
+Container = Container or require "src/engine/Container"
+
 -- Class
 local Entity = Object:extend()
 ------------------------------
@@ -48,7 +50,7 @@ function Entity:keyReleased(key)
 end
 
 function Entity:setTexture(path)
-  self.texture = love.graphics.newImage(path)
+  self.texture = Container:loadTexture(path)
   self.width = self.texture:getWidth() or 1
   self.height = self.texture:getHeight() or 1
   self.origin = Vector.new(self.width / 2, self.height / 2)

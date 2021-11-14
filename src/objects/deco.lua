@@ -5,6 +5,9 @@ local Object = Object or require "lib/classic"
 -- Locals
 DATA = DATA or require "src/DATA"
 Camera = Camera or require "src/objects/camera"
+
+Container = Container or require "src/engine/Container"
+
 local w, h = love.graphics.getDimensions()
 
 -- Class
@@ -16,7 +19,7 @@ function Deco:new(path, offset)
   self.screen = {x = 0, y = 0, scale = 0}
   
   self.offset = offset or 0
-  self.texture = love.graphics.newImage(path or "assets/texture/pixel.png")
+  self.texture = Container:loadTexture(path)
 end
 
 function Deco:draw()

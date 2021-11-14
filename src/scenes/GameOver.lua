@@ -44,7 +44,7 @@ function GameOver:new()
   self:addEntity(Entity(w / 2, h / 2, "assets/textures/scene/outro/game_out_13.jpg"))
   self:addEntity(Entity(w / 2, h / 2, "assets/textures/scene/outro/game_out_14.jpg"))
   self:addEntity(Entity(w / 2, h / 2, "assets/textures/scene/outro/game_out_15.jpg"))
-  self:addEntity(UIText(w / 2, 100, "GAME OVER", "center", 40))
+  self:addEntity(UIText(w / 2, 100, "¡Thank You for Playing :3!", "center", 40))
   self:addEntity(UIText(w / 2, 250, "PRESS SPACE TO PLAY AGAIN", "center", 40))
   self:addEntity(timerText)
 end

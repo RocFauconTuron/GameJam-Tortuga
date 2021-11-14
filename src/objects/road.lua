@@ -227,14 +227,15 @@ function Road:createRoad()
   self:createDeco(1, 300, 25, "trees/arbol2.png", 1)
   self:createDeco(1, 300, 25, "rocks/left-rock2.png", -3)
   self:createDeco(1, 300, 25, "trees/arbol2.png", -2.5)
-
+  
   self:createDeco(300, 500, 15, "rocks/right-rock2.png", 1.5)
   self:createDeco(300, 500, 15, "rocks/left-rock2.png", -2.5)
   self:createDeco(300, 500, 8, "trees/arbol4.png", 1.5)
   self:createDeco(300, 500, 8, "trees/arbol4.png", -2)
   
-  self:createDeco(500, 700, 20, "rocks/right-rock1.png", 1.3)
-  self:createDeco(500, 700, 20, "rocks/left-rock1.png", -2.8)
+  self:createDeco(500, 500, 1, "extra/tunel.png", -2.5)
+  self:createDeco(501, 700, 5, "extra/tunel-black.png", -2.5)
+  self:createDeco(700, 700, 1, "extra/tunel-black.png", -2.5)
   
   self:createDeco(700, 800, 8, "trees/arbol6-left.png", -1.7)
   self:createDeco(700, 800, 8, "trees/arbol6-right.png", 1)
@@ -296,7 +297,8 @@ function Road:createRoad()
   --- 80%
   
   -- COLOREADO DE LA CARRETERA
-  self:setRoadColor(1,810,DATA.cB37700, DATA.c004D0D, DATA.c804000, DATA.cCC8800)
+  self:setRoadColor(1,500,DATA.cB37700, DATA.c004D0D, DATA.c804000, DATA.cCC8800)
+  self:setRoadColor(500,700,DATA.t1, DATA.t2, DATA.t3, DATA.t4)
   self:setRoadColor(811,1596,DATA.mB37700, DATA.m004D0D, DATA.m804000, DATA.mCC8800)
   self:setRoadColor(1597,2800,DATA.pB37700, DATA.p004D0D, DATA.pCC8800, DATA.p004D0D)
  
