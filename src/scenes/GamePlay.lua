@@ -41,8 +41,8 @@ function GamePlay:new()
   
   Camera:new()
   
-  background_ids = self:addEntity(Entity(w*4, 277, "assets/textures/scene/play/background.png"))
-  background_id = self:addEntity(Entity(w/2, 277, "assets/textures/scene/play/background.png"))
+  --background_ids = self:addEntity(Entity(w*4, 277, "assets/textures/scene/play/background.png"))
+  background_id = self:addEntity(Entity(w/2+500, 277, "assets/textures/scene/play/background.png"))
   
   road_id = self:addEntity(Road())
   player_id = self:addEntity(Player())
