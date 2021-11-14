@@ -218,29 +218,83 @@ function Road:createRoad()
   -- LIMITE DE DIBUJADO ANTES DE LLEGAR AL CRASHEO
   self:createSection(199, 0,   -50)
   
-  -- Decoración
-  -- Bosque 
-  -- 100%
-  self:createDeco(1, 195, 25, "trees/arbol1.png", -2)
-  self:createDeco(1, 195, 25, "trees/arbol3.png", 2)
+
+-- Primera Fase: Bosque (1-810)
+
+  self:createDeco(30, 31, 1, "sign/sign1.png", -2)
+
+  self:createDeco(1, 300, 25, "rocks/left-rock1.png", 2)
+  self:createDeco(1, 300, 25, "trees/arbol2.png", 1)
+  self:createDeco(1, 300, 25, "rocks/left-rock2.png", -3)
+  self:createDeco(1, 300, 25, "trees/arbol2.png", -2.5)
+
+  self:createDeco(300, 500, 15, "rocks/right-rock2.png", 1.5)
+  self:createDeco(300, 500, 15, "rocks/left-rock2.png", -2.5)
+  self:createDeco(300, 500, 8, "trees/arbol4.png", 1.5)
+  self:createDeco(300, 500, 8, "trees/arbol4.png", -2)
+  
+  self:createDeco(500, 700, 20, "rocks/right-rock1.png", 1.3)
+  self:createDeco(500, 700, 20, "rocks/left-rock1.png", -2.8)
+  
+  self:createDeco(700, 800, 8, "trees/arbol6-left.png", -1.7)
+  self:createDeco(700, 800, 8, "trees/arbol6-right.png", 1)
+  
+  self:createDeco(810, 811,1, "sign/sign2.png", -2)
+
+-- Segunda Fase: Plana (815-1596)
+
+  self:createDeco(815, 1115, 25, "trees/arbol1.png", 1)
+  self:createDeco(815, 1115, 25, "trees/arbol1.png", -2.5)
+  
+  self:createDeco(815, 1115, 25, "trees/arbol3.png", 1.3)
+  self:createDeco(815, 1115, 25, "trees/arbol3.png", -1.5)
+  
+  self:createDeco(1118, 1315, 25, "extra/right-windmill.png", -2.8)
+  self:createDeco(1118, 1315, 25, "extra/left-windmill.png", 1.1)
+  
+  self:createDeco(1320, 1470, 8, "trees/arbol4.png", -1.5)
+  self:createDeco(1320, 1470, 8, "trees/arbol4.png", 1.05)
+  
+  self:createDeco(1470, 1590, 20, "trees/arbol1.png", 1)
+  self:createDeco(1470, 1590, 20, "trees/arbol1.png", -2.5)
+  
+  self:createDeco(1470, 1590, 20, "trees/arbol3.png", 1.3)
+  self:createDeco(1470, 1590, 20, "trees/arbol3.png", -1.5)
+  
+  self:createDeco(1595, 1596, 1, "sign/sign4.png", -2)
+  
+  -- Tercera Fase(1595-2600)
+
+  self:createDeco(1600, 1865, 20, "palm/left-1.png", -1.75)
+  self:createDeco(1600, 1865, 20, "palm/right-1.png", 0.8)
+  
+  self:createDeco(1870, 2010, 25, "beach/left-umbrella2.png", -2)
+  self:createDeco(1870, 2010, 25, "beach/right-umbrella2.png", 1.1)
+  self:createDeco(1880, 2020, 25, "beach/left-umbrella1.png", -2)
+  self:createDeco(1880, 2020, 25, "beach/right-umbrella1.png", 1.1)
+  self:createDeco(1890, 2030, 25, "beach/left-umbrella3.png", -2)
+  self:createDeco(1890, 2030, 25, "beach/right-umbrella3.png", 1.1)
+
+  self:createDeco(1870, 2010, 25, "palm/left-2.png", -2.5)
+  self:createDeco(1870, 2010, 25, "palm/right-2.png", 1.6)
+  self:createDeco(1880, 2020, 25, "palm/left-2.png", -2.5)
+  self:createDeco(1880, 2020, 25, "palm/right-2.png", 1.6)
+  self:createDeco(1890, 2030, 25, "palm/left-2.png", -2.5)
+  self:createDeco(1890, 2030, 25, "palm/right-2.png", 1.6)
+  
+  self:createDeco(2035, 2260, 20, "palm/left-1.png", -1.75)
+  self:createDeco(2035, 2260, 20, "palm/right-1.png", 0.8)
+  
+  self:createDeco(2260, 2450, 25, "beach/left-heladeria.png", -2.5)
+  self:createDeco(2260, 2450, 25, "beach/right-heladeria.png", 1.3)
+  
+  self:createDeco(2455, 2655, 25, "beach/left-beach_sign.png", -2.6)
+  self:createDeco(2455, 2655, 25, "beach/right-beach_sign.png", 1.2)
+  
+  self:createDeco(2595, 2596, 1, "sign/sign3.png", -2)
+
   --- 80%
-  self:createDeco(196, 390, 25, "trees/arbol3.png", -2)
-  --- 60%
-  self:createDeco(391, 650, 25, "rocks/left-rock1.png", -2)
-  -- Planes 
-  -- 50%
-  self:createDeco(651, 845, 25, "trees/arbol3.png", -2)
-  --- 80%
-  self:createDeco(846, 1625, 25, "rocks/right-rock1.png", -2)
-  -- 40%
-  self:createDeco(1626, 1950, 25, "palm/left-1.png", -2)
-  -- Beach
-  -- 10%
-  self:createDeco(1951, 2080, 25, "palm/left-3.png", -2)
-  -- 70%
-  self:createDeco(2081, 2405, 25, "beach/left-umbrella1.png", -2)
-  -- 100%
-  self:createDeco(2406, 2800, 25, "beach/left-umbrella3.png", -2)
+ 
   
   -- COCHES
   for i = 200000, 0, -5000 do
