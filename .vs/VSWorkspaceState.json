@@ -1,11 +1,13 @@
 {
   "ExpandedNodes": [
     "",
+    "\\assets",
+    "\\assets\\textures",
     "\\src",
     "\\src\\engine",
     "\\src\\objects",
     "\\src\\scenes"
   ],
-  "SelectedNode": "\\src\\objects\\turtle.lua",
+  "SelectedNode": "\\assets\\textures\\enemies",
   "PreviewInSolutionExplorer": false
 }
