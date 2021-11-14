@@ -1,6 +1,6 @@
 
 -- Lib
-local Vector = Vector or require "lib/Vector"
+local Vector = Vector or require "lib/vector"
 
 -- Engine
 local Entity = Entity or require "src/engine/Entity"

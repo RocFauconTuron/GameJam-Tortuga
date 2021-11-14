@@ -1,6 +1,6 @@
 
 -- lib
-local Vector = Vector or require "lib/Vector"
+local Vector = Vector or require "lib/vector"
 
 -- Engine
 local AnimatedActor = AnimatedActor or require "src/engine/AnimatedActor"
