@@ -8,8 +8,9 @@ local UIText = UIText or require "src/engine/UIText"
 
 -- Objects
 Camera = Camera or require "src/objects/camera"
-local Road = Road or require "src/objects/road"
-local Player = Player or require "src/objects/player"
+local Road = Road or require "src/objects/Road"
+local Player = Player or require "src/objects/Player"
+local UIText = UIText or require "src/engine/UIText"
 local Speedometer = Speedometer or require "src/objects/speedometer"
 
 -- Locals
@@ -39,8 +40,8 @@ function GamePlay:new()
   background_ids = self:addEntity(Entity(w*4, 277, "assets/textures/scene/play/background.png"))
   road_id = self:addEntity(Road())
   player_id = self:addEntity(Player())
+  hud_id = self:addEntity(UIText(20, 40, " ", "left", 1, {0,0,0,1}))
   speed_id = self:addEntity(Speedometer())
-  hud_id = self:addEntity(UIText(5, 40, " ", "left", 1, {0,0,0,1}))
   
   txt_id = self:addEntity(UIText(w / 2 - 35, 100, "", "left", 72))
 end
@@ -100,6 +101,7 @@ function GamePlay:update(dt)
     self:nextScene()
   end
   
+  hd:setText("Speed ")
 end
 
 function GamePlay:reload()
