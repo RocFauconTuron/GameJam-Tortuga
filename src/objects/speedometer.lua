@@ -22,6 +22,16 @@ function Speedometer:draw()
   --love.graphics.draw(self.texture, self.position.x, self.position.y, 0, 0.2, 0.2)
   love.graphics.setColor(0,0,0,1)
   love.graphics.circle("line", self.position.x, self.position.y - 3, 50)
+  love.graphics.print("0", 245, 0, 0, 0.4, 0.4)
+  love.graphics.print("1", 265, 8, 0, 0.4, 0.4)
+  love.graphics.print("2", 275, 15, 0, 0.4, 0.4)
+  love.graphics.print("3", 285, 35, 0, 0.4, 0.4)
+  love.graphics.print("4", 280, 60, 0, 0.4, 0.4)
+  love.graphics.print("5", 260, 73, 0, 0.4, 0.4)
+  love.graphics.print("6", 235, 75, 0, 0.4, 0.4)
+  love.graphics.print("7", 210, 55, 0, 0.4, 0.4)
+  love.graphics.print("8", 205, 25, 0, 0.4, 0.4)
+  love.graphics.print("9", 225, 5, 0, 0.4, 0.4)
   self.scale.x = 0.25
   self.scale.y = 0.25
   --self.rotation = -4
@@ -31,7 +41,7 @@ end
 
 function Speedometer:changeRotation(sp, msp)
   --if self.rotation> -4 then
-    self.rotation = sp/1450
+    self.rotation = sp/1550
   --end
   
   if sp == 0 then
