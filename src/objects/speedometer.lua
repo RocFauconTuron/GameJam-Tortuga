@@ -19,7 +19,7 @@ function Speedometer:update(dt)
 end
 
 function Speedometer:draw()
-  love.graphics.setColor(0,0,0,1)
+  love.graphics.setColor(0.25,0.25,0.25,1)
   love.graphics.circle("line", self.position.x, self.position.y - 3, 50)
   love.graphics.print("0", 245, 0, 0, 0.4, 0.4)
   love.graphics.print("1", 265, 8, 0, 0.4, 0.4)

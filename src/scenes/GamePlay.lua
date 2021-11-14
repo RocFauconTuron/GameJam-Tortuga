@@ -1,4 +1,7 @@
 
+--lib
+local Vector = Vector or require "lib/vector"
+
 -- Engine
 local Scene = Scene or require "src/engine/Scene"
 local Timer = Timer or require "src/engine/Timer"
@@ -22,7 +25,9 @@ local txt_id = -1
 local speed_id = -1
 local hud_id = -1
 
-local total_time = 60
+local pulsado_id = -1
+
+local total_time = 80
 
 local w, h = love.graphics.getDimensions()
 
@@ -40,10 +45,11 @@ function GamePlay:new()
   background_ids = self:addEntity(Entity(w*4, 277, "assets/textures/scene/play/background.png"))
   road_id = self:addEntity(Road())
   player_id = self:addEntity(Player())
-  hud_id = self:addEntity(UIText(20, 40, " ", "left", 1, {0,0,0,1}))
+  hud_id = self:addEntity(UIText(20, 40, " ", "left", 1, {0.25,0.25,0.25,1}))
   speed_id = self:addEntity(Speedometer())
   
-  txt_id = self:addEntity(UIText(w / 2 - 35, 100, "", "left", 72))
+  txt_id = self:addEntity(UIText(w / 2 - 35, 100, "", "left", 72, {0.25, 0.25, 0.25, 1}))
+  
 end
 
 function GamePlay:update(dt)
@@ -108,7 +114,12 @@ function GamePlay:reload()
   GamePlay.super.reload(self)
   -----------------------------
   self.nextSceneID = 3
-  total_time = 60
+  total_time = 80
+  pulsado_id = self:addEntity(Entity(w/2, h - 100, "assets/textures/wasd.png"))
+  self:getEntity(pulsado_id).scale = Vector.new(0.2, 0.2)
+  self:getEntity(pulsado_id).position.x = self:getEntity(pulsado_id).position.x + 50
+  self:getEntity(pulsado_id).color.a = 0.5
+  self:addEntity(Timer(3, function() self:getEntity(pulsado_id):destroy() end))
   Audio:play("music/playingSong",0.5,true)
 end
 

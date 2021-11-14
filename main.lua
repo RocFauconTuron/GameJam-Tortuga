@@ -54,7 +54,7 @@ function love.draw()
 end
 
 function love.keypressed(key)
-  if (key == "escape") then love.event.quit(0) end
+  --if (key == "escape") then love.event.quit(0) end
   mScenes[mCurrentScene]:keyPressed(key)
 end
 
