@@ -5,9 +5,9 @@ local Object = Object or require "lib/classic"
 -- Objects
 Camera = Camera or require "src/objects/camera"
 local Segment = Segment or require "src/objects/segment"
-local Turtle = Turtle or require "src/objects/Turtle"
-local Audio = Audio or require "src/objects/Audio"
-local Inter = Inter or require "src/objects/Inter"
+local Turtle = Turtle or require "src/objects/turtle"
+local Audio = Audio or require "src/engine/Audio"
+local Inter = Inter or require "src/objects/inter"
 
 -- Locals
 DATA = DATA or require "src/DATA"

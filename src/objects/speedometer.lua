@@ -37,8 +37,6 @@ function Speedometer:changeRotation(sp, msp)
   if sp == 0 then
     self.rotation = 0
   end
-  
-  print(self.rotation)
 end
 
 return Speedometer
