@@ -11,8 +11,8 @@ local UIText = UIText or require "src/engine/UIText"
 
 -- Objects
 Camera = Camera or require "src/objects/camera"
-local Road = Road or require "src/objects/Road"
-local Player = Player or require "src/objects/Player"
+local Road = Road or require "src/objects/road"
+local Player = Player or require "src/objects/player"
 local UIText = UIText or require "src/engine/UIText"
 local Speedometer = Speedometer or require "src/objects/speedometer"
 
