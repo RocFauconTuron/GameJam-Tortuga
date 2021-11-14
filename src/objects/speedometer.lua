@@ -9,23 +9,36 @@ local Actor = Actor or require "src/engine/Actor"
 local Speedometer = Actor:extend()
 
 function Speedometer:new()
-  --self.texture = self:setTexture("assets/textures/speedometer.png")
-  --self.scale = Vector.new(0.1, 0.1)
-  --self.position.x = 20
-  --self.position.y = 40
-  --self.rotation = 0
-  Speedometer.super.new(self, 395, 45, "assets/textures/speedometer.png", 0, 0)
+  self.rotation = 0
+  Speedometer.super.new(self, 250, 55, "assets/textures/aguja.png", 0, 0)
 end
 
 function Speedometer:update(dt)
   Speedometer.super.update(self, dt)
+  --self.rotation = self.rotation + dt
 end
 
 function Speedometer:draw()
   --love.graphics.draw(self.texture, self.position.x, self.position.y, 0, 0.2, 0.2)
-  self.scale.x = 0.2
-  self.scale.y = 0.2
+  love.graphics.setColor(0,0,0,1)
+  love.graphics.circle("line", self.position.x, self.position.y - 3, 50)
+  self.scale.x = 0.25
+  self.scale.y = 0.25
+  --self.rotation = -4
+  self.origin = Vector.new(self.width / 2, self.height - 23)
   Speedometer.super.draw(self)
+end
+
+function Speedometer:changeRotation(sp, msp)
+  --if self.rotation> -4 then
+    self.rotation = sp/1450
+  --end
+  
+  if sp == 0 then
+    self.rotation = 0
+  end
+  
+  print(self.rotation)
 end
 
 return Speedometer
