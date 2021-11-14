@@ -8,6 +8,6 @@
     "\\src\\objects",
     "\\src\\scenes"
   ],
-  "SelectedNode": "\\assets\\textures\\enemies",
+  "SelectedNode": "\\src\\objects\\speedometer.lua",
   "PreviewInSolutionExplorer": false
 }
